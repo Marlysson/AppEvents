@@ -3,3 +3,4 @@ documentacao/*.pyc
 enums/*.pyc
 modelo/*.pyc
 testes/*.pyc
+*/__pycache__

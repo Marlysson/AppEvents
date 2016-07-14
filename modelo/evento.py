@@ -5,23 +5,23 @@ import sys,os
 pasta_projeto = os.path.abspath("../")
 sys.path.append(pasta_projeto)
 
-from enums import Status
+from enums.tipo_status import Status
+from datetime import datetime
 
 class Evento(object):
 	def __init__(self,nome,descricao,data_ocorrencia):
 		self.nome = nome
-		self.descricao = desccricao
+		self.descricao = descricao
 		self.data_inicio = data_ocorrencia
+		self.data_final  = None
 		self.status = Status.ABERTO
 		self.status_inscricoes = Status.ABERTO
 		self.inscricoes = list()
 		self.atividades = list()
 		self.local = None
 
-	def add_atividades(self,atividade):
+	def add_atividade(self,atividade):
 		self.atividades.append(atividade)
 
-	def add_inscricoes(self,inscricao):
+	def add_inscricoe(self,inscricao):
 		self.inscricoes.append(inscricao)
-
-		

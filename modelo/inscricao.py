@@ -22,9 +22,6 @@ class Inscricao(object):
 			for atividade in atividades:
 				resultado += atividade.preco
 
-			# for cupon in cupons:
-			# 	cupon.descontar(self)
-
 			return resultado
 
 		def add_atividade(self,atividade):
@@ -33,7 +30,9 @@ class Inscricao(object):
 		def add_cupon(self,cupom):
 			self.cupons.append(cupom)
 
-# insc = Inscricao(participante,evento)
-# insc.add_atividade(tutorial)
-# insc.add_atividade(minicurso)
-# insc.data_pagamento(datetime.now())
+'''
+insc = Inscricao(participante,evento)
+insc.add_atividade(tutorial)
+insc.add_atividade(minicurso)
+insc.data_pagamento(datetime.now())
+'''
