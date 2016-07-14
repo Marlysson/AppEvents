@@ -16,12 +16,13 @@ class Evento(object):
 		self.data_final  = None
 		self.status = Status.ABERTO
 		self.status_inscricoes = Status.ABERTO
-		self.inscricoes = list()
 		self.atividades = list()
+		self.inscricoes = list()
 		self.local = None
 
 	def add_atividade(self,atividade):
 		self.atividades.append(atividade)
 
-	def add_inscricoe(self,inscricao):
+	def add_inscricaoelf,inscricao):
 		self.inscricoes.append(inscricao)
+		

@@ -24,8 +24,18 @@ class Inscricao(object):
 
 			return resultado
 
+		def pagar(self,valor):
+			if valor <= self.preco:
+				return False
+			elif valor == self.preco:
+				return True
+
 		def add_atividade(self,atividade):
-			self.atividades.append(atividade)
+			if atividade in self.evento.atividades:
+				self.atividades.append(atividade)
+			else:
+				#Subir exceção AtividadeNaoEncontrada
+				
 
 		def add_cupon(self,cupom):
 			self.cupons.append(cupom)
