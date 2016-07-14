@@ -1,7 +1,7 @@
 ## Projeto AppEventos
 Projeto com o objetivo de inicialmente construir um design de classes coeso e claro, para criar uma estrutura orientada a objetos consistente e de fácil manutenção.
 
-### Como o projeto está estruturado?
+## Como o projeto está estruturado?
 
 - **Abstrações :** Contém as classes que servem de base para a existência de outras, uma estrutura padrão para classes derivadas implementarem determinado comportamento. Pode conter classes normais, e classes de comportamento ( interfaces ).
 
@@ -14,12 +14,12 @@ Projeto com o objetivo de inicialmente construir um design de classes coeso e cl
 - **Testes :** Pacote responsável pelos testes de integridade e comportamento dos objetos que serão criados ao londo da app.
 ### E como ta a modelagem ?
 
-![documentação/Diagrama%20AppEventos.png](Modelagem Dssign de Classes)
+![Modelagem Design de Classes](/documentação/Diagrama%20AppEventos.png)
 
-### E como executar ele ?
+## E como executar ele ?
 
 O projeto inicialmente não possui dependência.
-Então é só dá um clone e começar a dá uma mexida. :+1:
+Então é só dá um clone e começar a dá uma mexida. :smile: :+1:
 
 ```python
 git clone https://github.com/Marlysson/AppEvents.git
@@ -27,7 +27,7 @@ cd AppEvents
 ...coding...
 ```
 
-#### E para contribuir ?
+## E para contribuir ?
 
 Assim como em qualquer outro projeto os passos são basicamente esses.
 
