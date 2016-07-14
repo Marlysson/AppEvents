@@ -4,7 +4,7 @@ from enum import Enum
 
 class Status(Enum):
 	ABERTO       = "Aberto"
-	EM_ANDAMENTO = "Em andamento"
+	EM_ANDAMENTO = "Em Andamento"
 	ENCERRADO    = "Encerrado"
 
 	def __str__(self):
