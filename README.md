@@ -1,4 +1,4 @@
-### Projeto AppEventos
+# Projeto AppEventos
 Projeto com o objetivo de inicialmente construir um design de classes coeso e claro, para criar uma estrutura orientada a objetos consistente e de fácil manutenção.
 
 ## Como o projeto está estruturado?
