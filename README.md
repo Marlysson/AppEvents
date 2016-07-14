@@ -1,4 +1,4 @@
-## Projeto AppEventos
+### Projeto AppEventos
 Projeto com o objetivo de inicialmente construir um design de classes coeso e claro, para criar uma estrutura orientada a objetos consistente e de fácil manutenção.
 
 ## Como o projeto está estruturado?
@@ -11,8 +11,9 @@ Projeto com o objetivo de inicialmente construir um design de classes coeso e cl
 
 - **Modelo** : As classes responsável por implementar as entidades que interagem dentro do sistema, fazendo ele funcionar.
 
-- **Testes :** Pacote responsável pelos testes de integridade e comportamento dos objetos que serão criados ao londo da app.
-### E como ta a modelagem ?
+- **Testes :** Pacote responsável pelos testes de integridade e comportamento dos objetos que serão criados ao longo da app.
+
+## E como ta a modelagem ?
 
 ![Modelagem Design de Classes](/documentação/Diagrama%20AppEventos.png)
 
