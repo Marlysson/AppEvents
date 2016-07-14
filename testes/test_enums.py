@@ -28,7 +28,7 @@ class TestEnums(unittest.TestCase):
 
 	def test_retorno_enum_tipo_status(self):
 		self.assertEqual("Aberto",str(self.aberto))
-		self.assertEqual("Em andamento",str(self.andamento))
+		self.assertEqual("Em Andamento",str(self.andamento))
 		self.assertEqual("Encerrado",str(self.encerrado))
 
 	def test_retorno_enum_tipo_usuario_evento(self):
