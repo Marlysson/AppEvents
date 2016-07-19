@@ -1,3 +1,7 @@
+#-*- coding: utf-8 -*- 
+
+import sys,os
+
 #-*- coding : utf-8 -*-
 
 #implementar uma classe de data/horario para calcular a diferença
@@ -8,14 +12,8 @@ class Atividade:
 		self.titulo = titulo
 		self.horario = None
 		self.ministrante = None
-	
-	@property
-	def tipo_evento(self):
-		return self.tipo.nome
-
-	@property
-	def preco(self):
-		return self.tipo.preco
-
+		self.tipo = str
+		self.preco = float
+		
 	def __repr__(self):
 		return "{} - {}".format(self.titulo,self.tipo)
