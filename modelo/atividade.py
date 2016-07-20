@@ -1,12 +1,17 @@
-#-*- coding: utf-8 -*- 
 
 class Atividade:
-	def __init__(self,titulo):
+
+	'''
+		>>> atividade = Atividade("Palestra","Iniciando Vue.js",40.00)
+		>>> print atividade
+		Iniciando Vue.js - Palestra
+	'''
+
+	def __init__(self,tipo,titulo,preco):
+		self.tipo = tipo
 		self.titulo = titulo
+		self.preco = preco
 		self.horario = None
-		self.ministrante = None
-		self.tipo = str
-		self.preco = float
 		
 	def __repr__(self):
 		return "{} - {}".format(self.titulo,self.tipo)
