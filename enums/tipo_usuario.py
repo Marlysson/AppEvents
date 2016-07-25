@@ -3,6 +3,7 @@
 from enum import Enum
 
 class TipoParticipante(Enum):
+	
 	PARTICIPANTE  = "Participante"
 	ORGANIZADOR   = "Organizador"
 	PALESTRANTE   = "Palestrante"

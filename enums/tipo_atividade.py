@@ -3,6 +3,7 @@
 from enum import Enum
 
 class TipoAtividade(Enum):
+	
 	PALESTRA     = "Palestra"
 	TUTORIAL     = "Tutorial"
 	MINI_CURSO   = "Mini-Curso"
