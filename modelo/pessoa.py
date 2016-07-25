@@ -1,12 +1,10 @@
 # -*- coding: utf-8
 
 class Pessoa(object):
-	def __init__(self,nome):
+	def __init__(self,nome,idade,genero):
 		self.nome = nome
-		self.idade = int
-		self.email = str
-		self.cpf   = str
-		self.tipo_perfil = str
+		self.idade = idade
+		self.genero = genero
 
 	def __repr__(self):
-		return "{}".format(self.nome)
+		return "<Pessoa {} >".format(self.__dict__)
