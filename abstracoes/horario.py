@@ -2,13 +2,31 @@
 
 class Horario(object):
 
+
+	'''
+	>>> horario = Horario("25/07/2016 16:00")
+	>>> hora = horario.hora()
+	>>> data = horario.data()
+	>>> print(hora)
+	16:00
+	>>> print(data)
+	25/07/2016
+	'''
+
 	def __init__(self,string_data):
-		self.data = string_data
+		self.string_data = string_data
+
+	def data(self):
+		return "{:%d/%m/%Y}".format(self.nativo())
+
+	def hora(self):
+		return "{:%H:%M}".format(self.nativo())
+
 
 	def nativo(self):
 		from datetime import datetime
 
-		datetime_convertido = datetime.strptime(self.data,"%d/%m/%Y %H:%M")
+		datetime_convertido = datetime.strptime(self.string_data,"%d/%m/%Y %H:%M")
 
 		ano = datetime_convertido.year
 		mes = datetime_convertido.month
