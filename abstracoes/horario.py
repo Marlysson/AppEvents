@@ -5,8 +5,8 @@ class Horario(object):
 
 	'''
 	>>> horario = Horario("25/07/2016 16:00")
-	>>> hora = horario.hora()
-	>>> data = horario.data()
+	>>> hora = horario.hora
+	>>> data = horario.data
 	>>> print(hora)
 	16:00
 	>>> print(data)
@@ -16,14 +16,17 @@ class Horario(object):
 	def __init__(self,string_data):
 		self.string_data = string_data
 
+
+	@property
 	def data(self):
-		return "{:%d/%m/%Y}".format(self.nativo())
+		return "{:%d/%m/%Y}".format(self.__nativo())
 
+	@property
 	def hora(self):
-		return "{:%H:%M}".format(self.nativo())
+		return "{:%H:%M}".format(self.__nativo())
 
 
-	def nativo(self):
+	def __nativo(self):
 		from datetime import datetime
 
 		datetime_convertido = datetime.strptime(self.string_data,"%d/%m/%Y %H:%M")
@@ -36,10 +39,11 @@ class Horario(object):
 
 		return datetime(ano,mes,dia,hora,minuto)
 
-	def formatado(self):
+	def __formatado(self):
 		from datetime import datetime
 
-		return datetime.strftime(self.nativo(),"%d/%m/%Y %H:%M")
+		return datetime.strftime(self.__nativo(),"%d/%m/%Y %H:%M")
 
 	def __repr__(self):
-		return "<Horario {}>".format(self.formatado())
+		return "<Horario {}>".format(self.__formatado())
+
