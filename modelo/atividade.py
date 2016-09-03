@@ -2,6 +2,17 @@
 
 class Atividade:
 
+	'''
+		Representa uma atividade qualquer dentro do evento
+
+		:tipo: string
+		:titulo: string
+		:horario: datetime
+		:preco: float
+
+		tutorial = Atividade(TipoAtividade.TUTORIAL , 'Iniciando com Python' , datetime(2016,12,05,15,0,0) , 15.00)
+
+	'''
 	def __init__(self,tipo,titulo,horario,preco=None):
 		self.tipo = tipo
 		self.titulo = titulo
