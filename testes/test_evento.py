@@ -3,28 +3,25 @@
 import unittest
 import sys,os
 
-# Adicionando pasta externa para capturar os modelos
 pasta_projeto = os.path.abspath("../")
 sys.path.append(pasta_projeto)
 
-from modelo.evento import Evento
-from modelo.atividades import *
+from modelo.atividade import Atividade
 from enums.tipo_status import Status
+from enums.tipo_atividade import TipoAtividade
+from modelo.evento import Evento
 
 class TestEvento(unittest.TestCase):
 	
 	def setUp(self):
 
-		from datetime import datetime
+		from datetime import datetime,date
 
-		self.evento = Evento("Semana de informática","asdasdasd",datetime.now())
+		self.evento = Evento("Semana de informática","asdasdasd",date.today())
 
-		self.palestra = Palestra("Palestra 1")
-		self.tutorial = Tutorial("Tutorial 1")
-		self.mini_curso = Tutorial("Tutorial 1")
-
-	def test_evento_criado_sem_atividades(self):
-		self.assertEqual(0,len(self.evento.atividades))
+		self.palestra = Atividade(TipoAtividade.PALESTRA,"Semana de informática",datetime.now())
+		self.tutorial = Atividade(TipoAtividade.TUTORIAL,"Semana de informática",datetime.now())
+		self.mini_curso = Atividade(TipoAtividade.MINI_CURSO,"Semana de informática",datetime.now())
 
 	def test_evento_criado_com_status_aberto(self):
 		self.assertEqual("Aberto",str(self.evento.status))
@@ -34,8 +31,8 @@ class TestEvento(unittest.TestCase):
 
 		self.assertEqual(str(self.evento.status),"Em Andamento")
 
-	def test_evento_criado_sem_inscricoes(self):
-		self.assertEqual(0,len(self.evento.inscricoes))
+	def test_evento_recem_criado_deve_ter_zero_atividades(self):
+		self.assertEqual(0,len(self.evento.atividades))
 
 	def test_evento_com_atividades_adicionadas(self):
 		self.evento.add_atividade(self.palestra)
@@ -44,5 +41,22 @@ class TestEvento(unittest.TestCase):
 
 		self.assertEqual(3,len(self.evento.atividades))
 
+	@unittest.skip("Não implementado")
+	def test_nao_deve_aceitar_eventos_data_passada(self):
+		pass
+
+	@unittest.skip("Não implementado")
+	def test_deve_settar_automaticamente_em_inscricao_este_evento(self):
+		pass
+
+	@unittest.skip("Não implementado")
+	def test_deve_aceitar_eventos_com_data_hoje_ou_futura(self):
+		pass
+
+	@unittest.skip("Não implementado")
+	def test_deve_criar_evento_com_nome_e_descricao_nao_publicado(self):
+		pass
+
+
 if __name__ == "__main__":
-	unittest.main()
+	unittest.main(verbosity=2)

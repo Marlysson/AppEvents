@@ -7,42 +7,30 @@ class Inscricao(object):
 	def __init__(self,participante,evento):
 		self.participante   = participante
 		self.evento         = evento
-		self.atividades     = list()
-		self.cupons         = list()
+		self.atividades     = []
+		self.cupom          = None
 		self.data_pagamento = None
 
-		@property
-		def paga(self):
-			return ( self.data_pagamento - datetime.now() ).days < 0
+		self.evento._inscricao(self)
 
-		@property
-		def preco(self):
-			resultado = 0.0
+	@property
+	def paga(self):
+		return ( self.data_pagamento - datetime.now() ).days < 0
 
-			for atividade in atividades:
-				resultado += atividade.preco
+	@property
+	def preco_total(self):
+		resultado = 0.0
 
-			return resultado
+		for atividade in atividades:
+			resultado += atividade.preco
 
-		def pagar(self,valor):
-			if valor <= self.preco:
-				return False
-			elif valor == self.preco:
-				return True
+		return resultado
 
-		def add_atividade(self,atividade):
-			if atividade in self.evento.atividades:
-				self.atividades.append(atividade)
-			else:
-				#Subir exceção AtividadeNaoEncontrada
-				
+	def add_atividade(self,atividade):
+		if atividade in self.evento.atividades:
+			self.atividades.append(atividade)
+		else:
+			raise Exception("Atividade nao existente no evento.")
 
-		def add_cupon(self,cupom):
-			self.cupons.append(cupom)
-
-'''
-insc = Inscricao(participante,evento)
-insc.add_atividade(tutorial)
-insc.add_atividade(minicurso)
-insc.data_pagamento(datetime.now())
-'''
+	def add_cupom(self,cupom):
+		self.cupons.append(cupom)
