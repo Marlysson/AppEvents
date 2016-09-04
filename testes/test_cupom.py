@@ -2,14 +2,16 @@
 
 import unittest
 
-import sys,os
+import os , sys
 
 # Adicionando pasta externa para capturar os modelos
-pasta_projeto = os.path.abspath(os.path.abspath(__file__))
+diretorio_atual = os.getcwd()
+app = os.path.dirname(diretorio_atual)
 
-sys.path.append(pasta_projeto)
+sys.path.append(app)
 
 from modelo.cupom import Cupom
+from enums.tipo_atividade import TipoAtividade
 
 class TestCupom(unittest.TestCase):
 

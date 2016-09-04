@@ -10,14 +10,18 @@ class Cupom(object):
 		self.descricao = descricao
 		self.desconto  = desconto
 		self.validade  = validade
-		self.regra_desconto = None
+		self.promocao = None
 
 	def validar(self):
 		from datetime import date
 
 		hoje = date.today()
 		
-		return hoje <= self.validade
+		if hoje <= self.validade:
+			return True
+		else:
+			return False
+		
 
 	def __str__(self):
 		return "<Cupom {} ({})>".format(self.descricao,self.validade)
