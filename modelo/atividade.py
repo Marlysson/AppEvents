@@ -18,6 +18,13 @@ class Atividade:
 		self.titulo = titulo
 		self.horario = horario
 		self.preco = float(preco) if preco else 0
+	
+	def __eq__(self,atividade):
 		
+		if self.titulo = atividade.titulo:
+			return True
+		return False
+
+
 	def __repr__(self):
 		return "<Atividade {} >".format(self.__dict__)
