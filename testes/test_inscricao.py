@@ -74,15 +74,14 @@ class TestInscricao(unittest.TestCase):
 
 		inscricao = Inscricao(self.participante,evento)
 
-		evento.adicionar_atividade(self.palestra)
-		evento.adicionar_atividade(self.hackathon)
+		for atividade in [self.palestra,self.hackathon]:
+			evento.adicionar_atividade(atividade)	
 
 		with self.assertRaises(AtividadeJaExisteNaInscricao):
 			
-			inscricao.adicionar_atividade(self.hackathon)
-			inscricao.adicionar_atividade(self.palestra)
-			inscricao.adicionar_atividade(self.hackathon)
-
+			for atividade in [self.hackathon,self.palestra,self.hackathon]:
+				inscricao.adicionar_atividade(atividade)
+			
 	def test_deve_gerar_excecao_adicionar_atividade_nao_associada_ao_evento_inscrito(self):
 
 		data_inicio = self.hoje + timedelta(1)
@@ -90,17 +89,44 @@ class TestInscricao(unittest.TestCase):
 
 		evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
 	
-		evento.adicionar_atividade(self.palestra)
-		evento.adicionar_atividade(self.hackathon)
-		evento.adicionar_atividade(self.tutorial)
+		for atividade in [self.palestra,self.hackathon,self.tutorial]:
+			evento.adicionar_atividade(atividade)	
 
 		inscricao = Inscricao(self.participante,evento)
 
 		with self.assertRaises(AtividadeNaoEncontradaNoEvento):
+			
+			for atividade in [self.hackathon,self.mini_curso]:
+				inscricao.adicionar_atividade(atividade)
+			
 
-			inscricao.adicionar_atividade(self.hackathon)
-			inscricao.adicionar_atividade(self.mini_curso)
+	def test_deve_aceitar_adicionar_atividades_que_estejam_no_seu_evento(self):
 
+		palestra = Atividade(TipoAtividade.PALESTRA,"CSS Escalável",datetime.now(),0.0)
+		tutorial = Atividade(TipoAtividade.TUTORIAL,"Javascript e SVG",datetime.now(),15.00)
+		mini_curso = Atividade(TipoAtividade.MINI_CURSO,"Javascript + StorageLocal",datetime.now(),30.00)
+		hackathon = Atividade(TipoAtividade.HACKATHON,"Aplicações em NodeJS",datetime.now(),10.00)
 
+		hoje = datetime.now()
+
+		data_inicio = hoje + timedelta(1)
+		data_final  = data_inicio + timedelta(2)
+
+		evento = Evento("BrazilJS","lorem ipsum....",data_inicio,data_final)
+		
+		for atividade in [palestra,tutorial,mini_curso,hackathon]:
+			evento.adicionar_atividade(atividade)
+
+		participante = Pessoa("Marlysson",20,TipoSexo.MASCULINO)
+
+		inscricao = Inscricao(participante,evento)
+		
+		for atividade in [palestra,hackathon,tutorial]:
+			inscricao.adicionar_atividade(atividade)
+
+	@unittest.skip("Não implementado")
+	def test_deve_gerar_excecao_quando_ocorrer_uma_inscricao_fora_do_prazo(self):
+		pass
+		
 if __name__ == "__main__":
 	unittest.main()

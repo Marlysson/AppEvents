@@ -1,6 +1,17 @@
 #-*- coding: utf-8 -*-
 
+
+import sys,os
 from datetime import datetime
+
+# Adicionando pasta externa para capturar os modelos
+diretorio_atual = os.getcwd()
+app = os.path.dirname(diretorio_atual)
+
+sys.path.append(app)
+
+from abstracoes.exceptions import AtividadeNaoEncontradaNoEvento
+from abstracoes.exceptions import AtividadeJaExisteNaInscricao
 
 class Inscricao(object):
 
@@ -11,26 +22,25 @@ class Inscricao(object):
 		self.cupom          = None
 		self.data_pagamento = None
 
-		self.evento._inscricao(self)
+		self.evento.adicionar_inscricao(self)
 
-	@property
-	def paga(self):
-		return ( self.data_pagamento - datetime.now() ).days < 0
+	def __eq__(self,inscricao):
+		
+		if self.__dict__ == inscricao.__dict__:
+			return True
+		return False
 
-	@property
-	def preco_total(self):
-		resultado = 0.0
+	def adicionar_atividade(self,atividade):
 
-		for atividade in atividades:
-			resultado += atividade.preco
-
-		return resultado
-
-	def add_atividade(self,atividade):
 		if atividade in self.evento.atividades:
-			self.atividades.append(atividade)
-		else:
-			raise Exception("Atividade nao existente no evento.")
+			
+			if atividade in self.atividades:
+				raise AtividadeJaExisteNaInscricao("Atividade Já Existe")
+			else:
+				self.atividades.append(atividade)
 
-	def add_cupom(self,cupom):
-		self.cupons.append(cupom)
+		else:
+			raise AtividadeNaoEncontradaNoEvento("Atividade Não Encontrada")
+
+	def adicionar_cupom(self,cupom):
+		self.cupom = cupom

@@ -61,9 +61,8 @@ class TestEvento(unittest.TestCase):
 
 	def test_evento_com_atividades_adicionadas(self):
 
-		self.evento.adicionar_atividade(self.palestra)
-		self.evento.adicionar_atividade(self.tutorial)
-		self.evento.adicionar_atividade(self.mini_curso)
+		for atividade in [self.palestra,self.tutorial,self.mini_curso]:
+			self.evento.adicionar_atividade(atividade)
 
 		self.assertEqual(3,len(self.evento.atividades))
 
@@ -96,9 +95,10 @@ class TestEvento(unittest.TestCase):
 		evento = Evento("Python Beach","Python na praia",inicio,final)
 
 		with self.assertRaises(AtividadeJaExisteNoEvento):
-			evento.adicionar_atividade(self.tutorial)
-			evento.adicionar_atividade(self.mini_curso)
-			evento.adicionar_atividade(self.tutorial)
+			
+			for atividade in [self.tutorial,self.mini_curso,self.tutorial]:
+				evento.adicionar_atividade(atividade)
+			
 
 if __name__ == "__main__":
 	unittest.main(verbosity=2)

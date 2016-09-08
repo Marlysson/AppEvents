@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys,os
+from datetime import datetime
 
 # Adicionando pasta externa para capturar os modelos
 diretorio_atual = os.getcwd()
@@ -9,8 +10,10 @@ app = os.path.dirname(diretorio_atual)
 sys.path.append(app)
 
 from enums.status_evento import StatusEvento
-from datetime import datetime
+
 from abstracoes.exceptions import EventoDataInvalida
+from abstracoes.exceptions import AtividadeJaExisteNoEvento
+from abstracoes.exceptions import InscricaoJaExisteNoEvento
 
 class Evento(object):
 	def __init__(self,nome,descricao,data_inicio,data_final):
@@ -21,9 +24,17 @@ class Evento(object):
 		self.visibilidade  = StatusEvento.NAO_PUBLICADO
 		self.ocorrencia    = StatusEvento.NAO_INICIADO
 		self.prazo_inscricoes = None
+		
 		self.atividades    = list()
 		self.inscricoes    = list()
+		
 		self.local         = None
+
+	def __eq__(self,evento):
+
+		if self.__dict__ == evento.__dict__:
+			return True
+		return False
 
 	@property
 	def data_inicio(self):
@@ -48,7 +59,12 @@ class Evento(object):
 		self._ocorrencia = status
 
 	def adicionar_atividade(self,atividade):
-		self.atividades.append(atividade)
+
+		if atividade in self.atividades:
+			raise AtividadeJaExisteNoEvento("Atividade Já Existe")
+		else:
+			self.atividades.append(atividade)
+
 
 	def mudar_visibilidade(self,visibilidade):
 
@@ -68,8 +84,12 @@ class Evento(object):
 		else:
 			return False		
 
-	def adicionar_inscricao(inscricao):
-		self.inscricoes.append(inscricao)
+	def adicionar_inscricao(self,inscricao):
+
+		if inscricao in self.inscricoes:
+			raise InscricaoJaExisteNoEvento("Inscrição já existe no evento")
+		else:
+			self.inscricoes.append(inscricao)
 		
 	def __repr__(self):
 		return "{}".format(self.__dict__)
