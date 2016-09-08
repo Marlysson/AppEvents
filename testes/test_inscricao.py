@@ -127,6 +127,6 @@ class TestInscricao(unittest.TestCase):
 	@unittest.skip("Não implementado")
 	def test_deve_gerar_excecao_quando_ocorrer_uma_inscricao_fora_do_prazo(self):
 		pass
-		
+
 if __name__ == "__main__":
 	unittest.main()
