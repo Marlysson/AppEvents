@@ -18,10 +18,10 @@ class Atividade:
 		self.titulo = titulo
 		self.horario = horario
 		self.preco = float(preco) if preco else 0
-	
+
 	def __eq__(self,atividade):
 		
-		if self.titulo = atividade.titulo:
+		if self.__dict__ == atividade.__dict__:
 			return True
 		return False
 
