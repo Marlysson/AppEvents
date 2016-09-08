@@ -27,8 +27,6 @@ class Horario(object):
 
 			self.hora,self.minuto = [int(i) for i in hora.split(":")]
 
-			print(self.__dict__)
-
 			horario = datetime(
 				self.ano,
 				self.mes,
