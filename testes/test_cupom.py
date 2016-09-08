@@ -1,7 +1,7 @@
 # -*- coding : utf8 -*- 
 
 import unittest
-
+from datetime import datetime , timedelta
 import os , sys
 
 # Adicionando pasta externa para capturar os modelos
@@ -38,5 +38,27 @@ class TestCupom(unittest.TestCase):
 
 		self.assertFalse(validade)
 
+	def test_deve_retornar_cupons_iguais_criados(self):
+
+		hoje = datetime.now()
+		
+		validade = hoje + timedelta(1)
+
+		cupom1 = Cupom("SETEMBRO_10",0.1,validade)
+		cupom2 = Cupom("SETEMBRO_10",0.1,validade)
+
+		self.assertEqual(cupom1,cupom2)
+
+	def test_deve_retornar_cupons_diferentes(self):
+
+		hoje = datetime.now()
+		
+		validade = hoje + timedelta(1)		
+
+		cupom1 = Cupom("PALESTRAS_50",0.5,validade)
+		cupom2 = Cupom("PALESTRAS_50",0.1,validade)
+
+		self.assertNotEqual(cupom1,cupom2)		
+		
 if __name__ == "__main__":
 	unittest.main()
