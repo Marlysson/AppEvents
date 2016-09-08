@@ -20,25 +20,23 @@ from enums.tipo_atividade import TipoAtividade
 
 #Excecoes
 from abstracoes.exceptions import EventoDataInvalida
-
-#Abstrações
-from abstracoes.horario import Horario
-
+from abstracoes.exceptions import AtividadeJaExisteNoEvento
 
 class TestEvento(unittest.TestCase):
 	
 	def setUp(self):
 
+		self.hoje = datetime.now()
 
-		data_inicio = datetime.now() + timedelta(10)
+		data_inicio = self.hoje + timedelta(10)
 
 		data_finalizacao = data_inicio + timedelta(days=3)
 
 		self.evento = Evento("Semana de informática","asdasdasd",data_inicio,data_finalizacao)
 
-		self.palestra = Atividade(TipoAtividade.PALESTRA,"Semana de informática",datetime.now(),0.0)
-		self.tutorial = Atividade(TipoAtividade.TUTORIAL,"Semana de informática",datetime.now(),15.00)
-		self.mini_curso = Atividade(TipoAtividade.MINI_CURSO,"Semana de informática",datetime.now(),30.00)
+		self.palestra = Atividade(TipoAtividade.PALESTRA,"Acessibilidade Web",datetime.now(),0.0)
+		self.tutorial = Atividade(TipoAtividade.TUTORIAL,"Javascript funcional",datetime.now(),15.00)
+		self.mini_curso = Atividade(TipoAtividade.MINI_CURSO,"Javascript - Best Pratices",datetime.now(),30.00)
 
 	def test_deve_criar_evento_com_nome_e_descricao_nao_publicado(self):
 		self.assertEqual(StatusEvento.NAO_PUBLICADO,self.evento.visibilidade)
@@ -79,23 +77,28 @@ class TestEvento(unittest.TestCase):
 			evento_erro = Evento("Python Day","Evento de Python",data_inicio,data_final)
 
 	def test_deve_aceitar_eventos_com_data_hoje_ou_futura(self):
-		
-		hoje = datetime.now()
 
-		inicio1 = hoje + timedelta(days=1)
+		inicio1 = self.hoje + timedelta(days=1)
 		final1 = inicio1 + timedelta(days=2)
 
-		inicio2 = hoje + timedelta(days=10)
+		inicio2 = self.hoje + timedelta(days=10)
 		final2 = inicio2 + timedelta(days=2)
 
 		evento1 = Evento("Python Beach","Python na praia",inicio1,final1)
 
 		evento2 = Evento("Java Day","Java na Prática",inicio2,final2)
 
+	def test_deve_gerar_excecao_quando_adicionar_atividades_repetidas_no_evento(self):
 
-	@unittest.skip("Não implementado")
-	def test_deve_settar_automaticamente_em_inscricao_este_evento(self):
-		pass
+		inicio = self.hoje + timedelta(days=10)
+		final = inicio + timedelta(days=2)
+
+		evento = Evento("Python Beach","Python na praia",inicio,final)
+
+		with self.assertRaises(AtividadeJaExisteNoEvento):
+			evento.adicionar_atividade(self.tutorial)
+			evento.adicionar_atividade(self.mini_curso)
+			evento.adicionar_atividade(self.tutorial)
 
 if __name__ == "__main__":
 	unittest.main(verbosity=2)
