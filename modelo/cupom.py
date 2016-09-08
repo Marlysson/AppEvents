@@ -12,6 +12,12 @@ class Cupom(object):
 		self.validade  = validade
 		self.promocao = None
 
+	def __eq__(self,cupom):
+		
+		if self.__dict__ == cupom.__dict__:
+			return True
+		return False
+
 	def validar(self):
 		from datetime import date
 
@@ -22,6 +28,5 @@ class Cupom(object):
 		else:
 			return False
 		
-
 	def __str__(self):
 		return "<Cupom {} ({})>".format(self.descricao,self.validade)
