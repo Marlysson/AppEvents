@@ -4,8 +4,6 @@ import unittest
 import sys,os
 from datetime import datetime, timedelta
 
-import pdb
-
 # Adicionando pasta externa para capturar os modelos
 diretorio_atual = os.getcwd()
 app = os.path.dirname(diretorio_atual)
