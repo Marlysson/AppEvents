@@ -26,6 +26,16 @@ class InscricaoJaExisteNoEvento(ValueError):
 class PeriodoInvalidoParaInscricoes(ValueError):
 	pass
 
+class InscricaoJaoPagaNaoAceitaInscricoes(ValueError):
+	pass
+
 # Exceções para Compra de Incrição
 
+class ValorInferiorAoPrecoComprado(ValueError):
+	pass
 
+class InscricaoJaPaga(Exception):
+	pass
+
+class CupomNaoEncontradoNesseEvento(self):
+	pass
