@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys,os
-from datetime import datetime
+from datetime import datetime , date , timedelta
 
 # Adicionando pasta externa para capturar os modelos
 diretorio_atual = os.getcwd()
@@ -9,25 +9,40 @@ app = os.path.dirname(diretorio_atual)
 
 sys.path.append(app)
 
+from modelo.cupom import Cupom
+
 from enums.status_evento import StatusEvento
 
 from abstracoes.exceptions import EventoDataInvalida
 from abstracoes.exceptions import AtividadeJaExisteNoEvento
 from abstracoes.exceptions import InscricaoJaExisteNoEvento
 
+from abstracoes.descontos import DescontoNulo
+
 class Evento(object):
+
 	def __init__(self,nome,descricao,data_inicio,data_final):
+
 		self.nome          = nome
 		self.descricao     = descricao
+		
 		self.data_inicio   = data_inicio
 		self.data_final    = data_final
+		
 		self.visibilidade  = StatusEvento.NAO_PUBLICADO
 		self.ocorrencia    = StatusEvento.NAO_INICIADO
+		
 		self.prazo_inscricoes = None
 		
 		self.atividades    = list()
 		self.inscricoes    = list()
+
+
+		validade = date.today() + timedelta(days=1)
+		cupom_nulo = Cupom("CupomNulo",0.0,validade,DescontoNulo)
 		
+		self.cupons        = [ cupom_nulo ]
+
 		self.local         = None
 
 	def __eq__(self,evento):
@@ -75,9 +90,9 @@ class Evento(object):
 
 		self.visibilidade = visibilidade
 
-	def inscricoes_disponiveis(self):
+	def apto_a_inscricoes(self):
 
-		hoje = datetime.now()
+		hoje = date.today()
 
 		if self.prazo_inscricoes <= hoje:
 			return True
@@ -86,10 +101,16 @@ class Evento(object):
 
 	def adicionar_inscricao(self,inscricao):
 
+		if self.apto_a_inscricoes():
+			raise PeriodoInvalidoParaInscricoes("Prazo encerrado de inscrições")
+
 		if inscricao in self.inscricoes:
 			raise InscricaoJaExisteNoEvento("Inscrição já existe no evento")
-		else:
-			self.inscricoes.append(inscricao)
 		
+		self.inscricoes.append(inscricao)
+	
+	def adicionar_cupom(self,cupom):
+		self.cupons.append(cupom)
+
 	def __repr__(self):
 		return "{}".format(self.__dict__)
