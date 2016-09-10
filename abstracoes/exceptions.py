@@ -11,6 +11,8 @@ class AtividadeJaExisteNoEvento(ValueError):
 class EventoDataInvalida(ValueError):
 	pass
 
+class InscricaoJaExisteNoEvento(ValueError):
+	pass
 
 # Exceptions de Atividade
 
@@ -22,10 +24,6 @@ class AtividadeNaoEncontradaNoEvento(ValueError):
 
 
 # Exceções para Inscricao
-
-
-class InscricaoJaExisteNoEvento(ValueError):
-	pass
 
 class PeriodoInvalidoParaInscricoes(ValueError):
 	pass

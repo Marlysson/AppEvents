@@ -20,7 +20,7 @@ class Desconto(metaclass=ABCMeta):
 
 class DescontoHackathon(Desconto):
 
-	def obter_atividades(inscricao):
+	def obter_atividades(self,inscricao):
 	    
 	    tipo_atividade = lambda atividade : atividade.tipo == "Hackathon"
 
@@ -30,7 +30,7 @@ class DescontoHackathon(Desconto):
 
 class DescontoWorkshop(Desconto):
 
-	def obter_atividades(inscricao):
+	def obter_atividades(self,inscricao):
 	    
 	    tipo_atividade = lambda atividade : atividade.tipo == "Workshop"
 
@@ -40,7 +40,7 @@ class DescontoWorkshop(Desconto):
 	
 class DescontoTutorial(Desconto):
 
-	def obter_atividades(inscricao):
+	def obter_atividades(self,inscricao):
 	    tipo_atividade = lambda atividade : atividade.tipo == "Tutorial"
 
 	    atividades = filter(tipo_atividade,inscricao.atividades)
@@ -49,12 +49,12 @@ class DescontoTutorial(Desconto):
 
 class DescontoGeral(Desconto):
 
-	def obter_atividades(inscricao):
+	def obter_atividades(self,inscricao):
 	    return inscricao.atividades
 		
 class DescontoNulo(Desconto):
 
-	def obter_atividades(inscricao):
+	def obter_atividades(self,inscricao):
 
 		from datetime import datetime
 
