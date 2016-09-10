@@ -8,14 +8,9 @@ app = os.path.dirname(diretorio_atual)
 
 sys.path.append(app)
 
-from abstracoes.exceptions import CupomNaoEncontradoNoEvento
-from abstracoes.exceptions import CupomExpirado
-
 class CalculadorPreco(object):
 
-	def calcular_preco(self,inscricao):
-
-		cupom_usado = inscricao.cupom
+	def calcular_preco(self,inscricao,cupom_usado):
 
 		valor_desconto = cupom_usado.obter_desconto(inscricao)
 
