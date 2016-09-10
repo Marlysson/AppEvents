@@ -2,7 +2,7 @@
 
 
 import sys,os
-from datetime import datetime
+from datetime import datetime , date , timedelta
 
 # Adicionando pasta externa para capturar os modelos
 diretorio_atual = os.getcwd()
@@ -16,11 +16,13 @@ from abstracoes.exceptions import AtividadeJaExisteNaInscricao
 class Inscricao(object):
 
 	def __init__(self,participante,evento):
-		self.participante   = participante
+		
 		self.evento         = evento
 		self.atividades     = []
-		self.cupom          = None
+		self.participante   = participante
+		
 		self.data_pagamento = None
+		self.paga 			= False
 
 		self.evento.adicionar_inscricao(self)
 
@@ -30,17 +32,34 @@ class Inscricao(object):
 			return True
 		return False
 
+	@property
+	def preco_total(self):
+	    preco_total = 0.0
+
+	    for atividade in self.atividades:
+	    	preco_total += atividade.preco
+
+	    return preco_total
+	
+	@property
+	def cupons_evento(self):
+		return self.evento.cupons
+
 	def adicionar_atividade(self,atividade):
 
-		if atividade in self.evento.atividades:
-			
-			if atividade in self.atividades:
-				raise AtividadeJaExisteNaInscricao("Atividade Já Existe")
-			else:
-				self.atividades.append(atividade)
+		if self.paga:
+			raise InscricaoJaPagaNaoAceitaInscricoes("Não é permitido mais inscrições")
 
-		else:
+		if not self.atividade_valida(atividade):
 			raise AtividadeNaoEncontradaNoEvento("Atividade Não Encontrada")
 
-	def adicionar_cupom(self,cupom):
-		self.cupom = cupom
+		if atividade in self.atividades:
+			raise AtividadeJaExisteNaInscricao("Atividade Já Existe")
+
+		self.atividades.append(atividade)
+
+
+	def atividade_valida(self,atividade):
+		if atividade in self.evento.atividades:
+			return True
+		return False
