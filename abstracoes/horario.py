@@ -1,13 +1,18 @@
 # -*- coding : utf-8 -*- 
 
-from datetime import datetime , date
+from datetime import datetime , date , timedelta
+from fabricas.recorrencia_factory import FactoryRecorrencia
 
 class Horario(object):
 
-	def __init__(self,string_horario):
-		
-		self.horario = string_horario
-		
+	def __init__(self,string_horario = None):
+				
+		if string_horario == None:
+			horario = datetime.now()
+			self.horario = "{}/{}/{} {}:{}".format(horario.day,horario.month,horario.year,horario.hour,horario.minute)
+		else:
+			self.horario = string_horario
+
 		self.dia = None
 		self.mes = None
 		self.ano = None
@@ -47,22 +52,12 @@ class Horario(object):
 		return date(self.ano,self.mes,self.dia)
 	
 	def mais(self,horario_adicional):
-		
-		# quantidade,recorrencia = horario_adicional.split(" ")
 
-		# if recorrencia == "dias":
+		quantidade,recorrencia = horario_adicional.split(" ")
 
-		# elif recorrencia == "meses":
+		factory = FactoryRecorrencia.criar(self,recorrencia)
 
-		# elif recorrencia == "anos":
-
-		# elif recorrencia == "horas":
-
-		# elif recorrencia == "minutos"
-		pass
-
-	def menos(self,horario_a_menos):	
-		pass
+		return factory.somar(int(quantidade))
 
 	def __repr__(self):
 		
