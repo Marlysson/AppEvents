@@ -44,7 +44,7 @@ class SomadorAnos(SomadorRecorrencia):
 	def somar(self,quantidade):
 
 		anos = quantidade * 365
-		self.horario = self.horario.datetime + timedelta(days=anos)
+		self.horario = self.horario.com_horas + timedelta(days=anos)
 
 		return self.horario
 
@@ -53,20 +53,21 @@ class SomadorMes(SomadorRecorrencia):
 	def somar(self,quantidade):
 		meses = quantidade * 30
 
-		self.horario = self.horario.datetime + timedelta(days=meses)
+		self.horario = self.horario.com_horas + timedelta(days=meses)
 
 		return self.horario
 
 class SomadorDia(SomadorRecorrencia):
 
 	def somar(self,quantidade):
-		self.horario = self.horario.datetime + timedelta(days=quantidade)
+
+		self.horario = self.horario.com_horas + timedelta(days=quantidade)
 
 		return self.horario
 
 class SomadorMinutos(SomadorRecorrencia):
 
 	def somar(self,quantidade):
-		self.horario = self.horario.datetime + timedelta(minutes=quantidade)
+		self.horario = self.horario.com_horas + timedelta(minutes=quantidade)
 
 		return self.horario

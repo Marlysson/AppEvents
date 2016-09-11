@@ -22,14 +22,6 @@ class Horario(object):
 
 		self.validar()
 
-	@property
-	def data(self):
-		return date(self.ano,self.mes,self.dia)
-
-	@property
-	def com_horas(self):
-	    return datetime(self.ano,self.mes,self.dia,self.hora,self.minuto)
-	
 	def validar(self):
 
 		try:
@@ -50,6 +42,14 @@ class Horario(object):
 
 		except Exception:
 			raise ValueError("Horário Inválido")
+
+	@property
+	def datetime(self):
+	    return datetime(self.ano,self.mes,self.dia,self.hora,self.minuto)
+
+	@property
+	def date(self):
+		return date(self.ano,self.mes,self.dia)
 	
 	def mais(self,horario_adicional):
 
@@ -57,19 +57,7 @@ class Horario(object):
 
 		factory = FactoryRecorrencia.criar(self,recorrencia)
 
-		hora_somada = factory.somar(int(quantidade))
-
-		dados = {
-			"dia" : hora_somada.day ,
-			"mes": hora_somada.month ,
-			"ano": hora_somada.year ,
-			"hora": hora_somada.hour ,
-			"minuto": hora_somada.minute
-		}
-
-		formatada = "{}/{}/{} {}:{}".format(dados["dia"],dados["mes"],dados["ano"],dados["hora"],dados["minuto"])
-		
-		return Horario(formatada)
+		return factory.somar(int(quantidade))
 
 	def __repr__(self):
 		
