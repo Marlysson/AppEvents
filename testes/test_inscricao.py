@@ -2,7 +2,7 @@
 
 import unittest
 import sys,os
-from datetime import datetime, timedelta
+from datetime import datetime, date , timedelta
 
 # Adicionando pasta externa para capturar os modelos
 diretorio_atual = os.getcwd()
@@ -32,11 +32,14 @@ class TestInscricao(unittest.TestCase):
 
 		self.hoje = datetime.now()
 
-		data_inicio = self.hoje + timedelta(1)
-		data_final  = data_inicio + timedelta(2)
+		self.prazo_inscricoes = date.today() + timedelta(days=10)
+
+		data_inicio = self.hoje + timedelta(days=1)
+		data_final  = data_inicio + timedelta(days=2)
 
 		self.evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
-	
+		self.evento.prazo_inscricoes = self.prazo_inscricoes
+
 		self.palestra = Atividade(TipoAtividade.PALESTRA,"Introdução à Vuejs",datetime.now(),0.0)
 		self.tutorial = Atividade(TipoAtividade.TUTORIAL,"Iniciando com Unittest",datetime.now(),15.00)
 		self.mini_curso = Atividade(TipoAtividade.MINI_CURSO,"Python Avançado",datetime.now(),30.00)
@@ -65,10 +68,11 @@ class TestInscricao(unittest.TestCase):
 
 	def test_deve_gerar_excecao_ao_adicionar_atividade_repetida_na_inscricao(self):
 		
-		data_inicio = self.hoje + timedelta(1)
-		data_final  = data_inicio + timedelta(2)
+		data_inicio = self.hoje + timedelta(days=1)
+		data_final  = data_inicio + timedelta(days=3)
 
 		evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
+		evento.prazo_inscricoes = (data_inicio + timedelta(days=1)).date()
 
 		inscricao = Inscricao(self.participante,evento)
 
@@ -82,11 +86,12 @@ class TestInscricao(unittest.TestCase):
 			
 	def test_deve_gerar_excecao_adicionar_atividade_nao_associada_ao_evento_inscrito(self):
 
-		data_inicio = self.hoje + timedelta(1)
-		data_final  = data_inicio + timedelta(2)
+		data_inicio = self.hoje + timedelta(days=1)
+		data_final  = data_inicio + timedelta(days=2)
 
 		evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
-	
+		evento.prazo_inscricoes = (data_inicio + timedelta(days=1)).date()
+
 		for atividade in [self.palestra,self.hackathon,self.tutorial]:
 			evento.adicionar_atividade(atividade)	
 
@@ -107,11 +112,12 @@ class TestInscricao(unittest.TestCase):
 
 		hoje = datetime.now()
 
-		data_inicio = hoje + timedelta(1)
-		data_final  = data_inicio + timedelta(2)
+		data_inicio = hoje + timedelta(days=1)
+		data_final  = data_inicio + timedelta(days=2)
 
 		evento = Evento("BrazilJS","lorem ipsum....",data_inicio,data_final)
-		
+		evento.prazo_inscricoes = (data_inicio + timedelta(days=1)).date()
+
 		for atividade in [palestra,tutorial,mini_curso,hackathon]:
 			evento.adicionar_atividade(atividade)
 
@@ -124,7 +130,7 @@ class TestInscricao(unittest.TestCase):
 
 	@unittest.skip("Não implementado")
 	def test_deve_gerar_excecao_quando_ocorrer_uma_inscricao_fora_do_prazo(self):
-		pass
+		
 
 if __name__ == "__main__":
 	unittest.main()
