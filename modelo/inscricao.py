@@ -12,6 +12,7 @@ sys.path.append(app)
 
 from abstracoes.exceptions import AtividadeNaoEncontradaNoEvento
 from abstracoes.exceptions import AtividadeJaExisteNaInscricao
+from abstracoes.exceptions import InscricaoJaPagaNaoAceitaInscricoes
 
 class Inscricao(object):
 

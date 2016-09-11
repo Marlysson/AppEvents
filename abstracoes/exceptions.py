@@ -40,6 +40,9 @@ class ValorPagoInferior(ValueError):
 class InscricaoJaPaga(Exception):
 	pass
 
+
+#Exceções relacionadas ao Cupom
+
 class CupomNaoEncontradoNoEvento(Exception):
 	pass
 
