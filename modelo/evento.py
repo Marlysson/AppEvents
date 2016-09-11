@@ -16,6 +16,7 @@ from enums.status_evento import StatusEvento
 from abstracoes.exceptions import EventoDataInvalida
 from abstracoes.exceptions import AtividadeJaExisteNoEvento
 from abstracoes.exceptions import InscricaoJaExisteNoEvento
+from abstracoes.exceptions import PeriodoInvalidoParaInscricoes
 
 from abstracoes.descontos import DescontoNulo
 
@@ -94,14 +95,14 @@ class Evento(object):
 
 		hoje = date.today()
 
-		if self.prazo_inscricoes <= hoje:
+		if self.prazo_inscricoes >= hoje:
 			return True
 		else:
 			return False		
 
 	def adicionar_inscricao(self,inscricao):
 
-		if self.apto_a_inscricoes():
+		if not self.apto_a_inscricoes():
 			raise PeriodoInvalidoParaInscricoes("Prazo encerrado de inscrições")
 
 		if inscricao in self.inscricoes:
