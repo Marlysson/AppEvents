@@ -48,3 +48,9 @@ class CupomNaoEncontradoNoEvento(Exception):
 
 class CupomExpirado(Exception):
 	pass
+
+
+# Valores inseridos Incorretamente
+
+class DuracaoDeTempoInvalida(ValueError):
+	pass
