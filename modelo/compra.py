@@ -1,7 +1,7 @@
 # -*- coding : utf-8 -*-
 
 import sys , os
-from datetime import datetime , date , timedelta
+from datetime import date , timedelta
 
 # Adicionando pasta externa para capturar os modelos
 diretorio_atual = os.getcwd()
@@ -28,7 +28,7 @@ class Compra(object):
 		self.calculador = CalculadorPreco()
 		self.inscricao = inscricao
 
-		self.troco = 0
+		self.troco = 0.0
 
 		validade = date.today() + timedelta(days=1)
 		cupom_nulo = Cupom("CupomNulo",0.0,validade,DescontoNulo)
@@ -50,10 +50,9 @@ class Compra(object):
 			raise ValorPagoInferior("Valor inválido")
 
 		self.inscricao.paga = True
-		self.inscricao.data_pagamento = datetime.now()
+		self.inscricao.data_pagamento = date.today()
 
 		self.troco = valor_pago - self.preco_total
-
 
 	def aplicar_cupom(self,cupom):
 
