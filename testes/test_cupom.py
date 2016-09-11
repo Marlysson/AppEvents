@@ -10,6 +10,7 @@ app = os.path.dirname(diretorio_atual)
 
 sys.path.append(app)
 
+from services.horario import Horario
 from modelo.cupom import Cupom
 from abstracoes.descontos import DescontoNulo
 
@@ -17,8 +18,8 @@ class TestCupom(unittest.TestCase):
 
 	def test_deve_ser_ativo_se_estar_no_periodo_da_validade(self):
 		
-		validade_futura = date.today() + timedelta(days=7)
-
+		# validade_futura = date.today() + timedelta(days=7)
+		validade_futura = Horario().mais("7 dias").data
 		cupom = Cupom("ANDROID_10",0.1,validade_futura)
 
 		validade = cupom.valido

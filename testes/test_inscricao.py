@@ -25,6 +25,8 @@ from enums.tipo_sexo import TipoSexo
 from abstracoes.exceptions import AtividadeJaExisteNaInscricao
 from abstracoes.exceptions import AtividadeNaoEncontradaNoEvento
 from abstracoes.exceptions import InscricaoJaExisteNoEvento
+from abstracoes.exceptions import PeriodoInvalidoParaInscricoes
+
 
 class TestInscricao(unittest.TestCase):
 
@@ -35,7 +37,7 @@ class TestInscricao(unittest.TestCase):
 		self.prazo_inscricoes = date.today() + timedelta(days=10)
 
 		data_inicio = self.hoje + timedelta(days=1)
-		data_final  = data_inicio + timedelta(days=2)
+		data_final  = data_inicio + timedelta(days=3)
 
 		self.evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
 		self.evento.prazo_inscricoes = self.prazo_inscricoes
@@ -131,6 +133,24 @@ class TestInscricao(unittest.TestCase):
 	@unittest.skip("Não implementado")
 	def test_deve_gerar_excecao_quando_ocorrer_uma_inscricao_fora_do_prazo(self):
 		
+		from unittest.mock import Mock
+
+		data_inicio = self.hoje + timedelta(days=1)
+		data_final  = data_inicio + timedelta(days=3)
+
+
+		evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
+		evento.prazo_inscricoes = (data_inicio + timedelta(days=2)).date()
+
+		evento.apto_inscricoes = Mock(return_value=False)
+
+		evento.adicionar_atividade(self.tutorial)
+		evento.adicionar_atividade(self.palestra)
+
+		print(evento)
+
+		with self.assertRaises(PeriodoInvalidoParaInscricoes):
+			inscricao = Inscricao(self.participante,evento)
 
 if __name__ == "__main__":
 	unittest.main()

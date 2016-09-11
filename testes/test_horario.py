@@ -9,7 +9,7 @@ app = os.path.dirname(diretorio_atual)
 
 sys.path.append(app)
 
-from abstracoes.horario import Horario
+from services.horario import Horario
 from datetime import datetime , date , timedelta
 
 class TestHorario(unittest.TestCase):

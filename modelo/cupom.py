@@ -24,7 +24,6 @@ class Cupom(object):
 	def valido(self):
 
 		hoje = date.today()
-
 		if self.validade >= hoje:
 			return True
 		return False
