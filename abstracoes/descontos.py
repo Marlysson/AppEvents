@@ -22,7 +22,7 @@ class DescontoHackathon(Desconto):
 
 	def obter_atividades(self,inscricao):
 	    
-	    tipo_atividade = lambda atividade : atividade.tipo == "Hackathon"
+	    tipo_atividade = lambda atividade : atividade.tipo.value == "Hackathon"
 
 	    atividades = filter(tipo_atividade,inscricao.atividades)
 
@@ -32,7 +32,7 @@ class DescontoWorkshop(Desconto):
 
 	def obter_atividades(self,inscricao):
 	    
-	    tipo_atividade = lambda atividade : atividade.tipo == "Workshop"
+	    tipo_atividade = lambda atividade : atividade.tipo.value == "Workshop"
 
 	    atividades = filter(tipo_atividade,inscricao.atividades)
 
@@ -41,7 +41,8 @@ class DescontoWorkshop(Desconto):
 class DescontoTutorial(Desconto):
 
 	def obter_atividades(self,inscricao):
-	    tipo_atividade = lambda atividade : atividade.tipo == "Tutorial"
+
+	    tipo_atividade = lambda atividade : atividade.tipo.value == "Tutorial"
 
 	    atividades = filter(tipo_atividade,inscricao.atividades)
 
