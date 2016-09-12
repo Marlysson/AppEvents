@@ -19,6 +19,14 @@ class Duracao(object):
 
 		self.validar()
 
+	@property
+	def horario_inicio(self):
+		return self.inicio
+
+	@property
+	def horario_final(self):
+		return self.final
+
 	def validar(self):
 
 		if self.final.com_horas <= self.inicio.com_horas:

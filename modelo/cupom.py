@@ -9,6 +9,7 @@ app = os.path.dirname(diretorio_atual)
 
 sys.path.append(app)
 
+from services.horario import Horario
 from abstracoes.descontos import DescontoNulo
 
 class Cupom(object):
@@ -23,11 +24,11 @@ class Cupom(object):
 	@property
 	def valido(self):
 
-		hoje = date.today()
-		if self.validade >= hoje:
+		hoje = Horario()
+
+		if self.validade.data >= hoje.data:
 			return True
 		return False
-
 
 	def obter_desconto(self,inscricao):
 		

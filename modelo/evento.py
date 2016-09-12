@@ -56,15 +56,15 @@ class Evento(object):
 		if self.__dict__ == evento.__dict__:
 			return True
 		return False
-
+	
 	@property
 	def horario_inicio(self):
-		return self._duracao.inicio
+		return self.duracao.inicio
 
 	@property
 	def horario_final(self):
-		return self._duracao.final
-	
+		return self.duracao.final
+
 	@property
 	def duracao(self):
 		return self._duracao
@@ -74,7 +74,7 @@ class Evento(object):
 		
 		hoje = Horario()
 
-		if duracao.inicio.com_horas < hoje.com_horas:
+		if duracao.horario_inicio.com_horas < hoje.com_horas:
 			raise EventoDataInvalida("Data de Início Inválida")
 	
 		self._duracao = duracao		
@@ -106,9 +106,9 @@ class Evento(object):
 
 	def apto_a_inscricoes(self):
 
-		hoje = date.today()
+		hoje = Horario()
 
-		if self.prazo_inscricoes >= hoje:
+		if self.prazo_inscricoes.data >= hoje.data:
 			return True
 		else:
 			return False		

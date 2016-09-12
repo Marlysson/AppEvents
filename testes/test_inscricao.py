@@ -27,25 +27,33 @@ from abstracoes.exceptions import AtividadeNaoEncontradaNoEvento
 from abstracoes.exceptions import InscricaoJaExisteNoEvento
 from abstracoes.exceptions import PeriodoInvalidoParaInscricoes
 
+#Services
+from services.horario import Horario
+from services.duracao import Duracao
 
 class TestInscricao(unittest.TestCase):
-
+	
 	def setUp(self):
 
-		self.hoje = datetime.now()
+		self.hoje = Horario()
 
-		self.prazo_inscricoes = date.today() + timedelta(days=10)
+		data_inicio = self.hoje.mais("1 dia")
+		self.duracao = Duracao(data_inicio,durando="3 dias")
 
-		data_inicio = self.hoje + timedelta(days=1)
-		data_final  = data_inicio + timedelta(days=3)
+		self.prazo_inscricoes = self.hoje.mais("10 dias")
 
-		self.evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
+		self.evento = Evento("Congresso de Profissionais Web","lorem ipsum....",self.duracao)
 		self.evento.prazo_inscricoes = self.prazo_inscricoes
 
-		self.palestra = AtividadeSimples(TipoAtividade.PALESTRA,"Introdução à Vuejs",datetime.now(),0.0)
-		self.tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Iniciando com Unittest",datetime.now(),15.00)
-		self.mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Python Avançado",datetime.now(),30.00)
-		self.hackathon = AtividadeSimples(TipoAtividade.HACKATHON,"Hackeando Dados Públicos",datetime.now(),10.00)
+		self.duracao1 = Duracao(data_inicio,durando="50 minutos")
+		self.duracao2 = Duracao(self.duracao1.horario_final,durando="50 minutos")
+		self.duracao3 = Duracao(self.duracao2.horario_final,durando="50 minutos")
+		self.duracao4 = Duracao(self.duracao3.horario_final,durando="50 minutos")
+
+		self.palestra = AtividadeSimples(TipoAtividade.PALESTRA,"Introdução à Vuejs",self.duracao1,0.0)
+		self.tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Iniciando com Unittest",self.duracao2,15.00)
+		self.mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Python Avançado",self.duracao3,30.00)
+		self.hackathon = AtividadeSimples(TipoAtividade.HACKATHON,"Hackeando Dados Públicos",self.duracao4,10.00)
 
 		self.participante = Pessoa("Marlysson",20,TipoSexo.MASCULINO)
 	
@@ -54,82 +62,61 @@ class TestInscricao(unittest.TestCase):
 		inscricao = Inscricao(self.participante,self.evento)
 
 		self.assertEqual(0,len(inscricao.atividades))
-
+	
 	def test_deve_settar_automaticamente_em_inscricao_o_evento_adicionado(self):
 
 		inscricao = Inscricao(self.participante,self.evento)
 
 		self.assertEqual(inscricao.evento,self.evento)
-
+	
 	def test_deve_gerar_excecao_quando_se_inscrever_repetidamente_no_evento(self):
 
 		with self.assertRaises(InscricaoJaExisteNoEvento):
 
 			inscricao1 =  Inscricao(self.participante,self.evento)
 			inscricao2 = Inscricao(self.participante,self.evento)
-
+	
 	def test_deve_gerar_excecao_ao_adicionar_atividade_repetida_na_inscricao(self):
 		
-		data_inicio = self.hoje + timedelta(days=1)
-		data_final  = data_inicio + timedelta(days=3)
-
-		evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
-		evento.prazo_inscricoes = (data_inicio + timedelta(days=1)).date()
-
-		inscricao = Inscricao(self.participante,evento)
+		inscricao = Inscricao(self.participante,self.evento)
 
 		for atividade in [self.palestra,self.hackathon]:
-			evento.adicionar_atividade(atividade)	
+			self.evento.adicionar_atividade(atividade)	
 
 		with self.assertRaises(AtividadeJaExisteNaInscricao):
 			
 			for atividade in [self.hackathon,self.palestra,self.hackathon]:
-				inscricao.adicionar_atividade(atividade)
-			
+					inscricao.adicionar_atividade(atividade)
+	
 	def test_deve_gerar_excecao_adicionar_atividade_nao_associada_ao_evento_inscrito(self):
 
-		data_inicio = self.hoje + timedelta(days=1)
-		data_final  = data_inicio + timedelta(days=2)
-
-		evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
-		evento.prazo_inscricoes = (data_inicio + timedelta(days=1)).date()
-
 		for atividade in [self.palestra,self.hackathon,self.tutorial]:
-			evento.adicionar_atividade(atividade)	
+			self.evento.adicionar_atividade(atividade)	
 
-		inscricao = Inscricao(self.participante,evento)
+		inscricao = Inscricao(self.participante,self.evento)
 
 		with self.assertRaises(AtividadeNaoEncontradaNoEvento):
 			
 			for atividade in [self.hackathon,self.mini_curso]:
 				inscricao.adicionar_atividade(atividade)
 			
-
 	def test_deve_aceitar_adicionar_atividades_que_estejam_no_seu_evento(self):
 
-		palestra = AtividadeSimples(TipoAtividade.PALESTRA,"CSS Escalável",datetime.now(),0.0)
-		tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Javascript e SVG",datetime.now(),15.00)
-		mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Javascript + StorageLocal",datetime.now(),30.00)
-		hackathon = AtividadeSimples(TipoAtividade.HACKATHON,"Aplicações em NodeJS",datetime.now(),10.00)
-
-		hoje = datetime.now()
-
-		data_inicio = hoje + timedelta(days=1)
-		data_final  = data_inicio + timedelta(days=2)
-
-		evento = Evento("BrazilJS","lorem ipsum....",data_inicio,data_final)
-		evento.prazo_inscricoes = (data_inicio + timedelta(days=1)).date()
+		palestra = AtividadeSimples(TipoAtividade.PALESTRA,"CSS Escalável",self.duracao1,0.0)
+		tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Javascript e SVG",self.duracao2,15.00)
+		mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Javascript + StorageLocal",self.duracao3,30.00)
+		hackathon = AtividadeSimples(TipoAtividade.HACKATHON,"Aplicações em NodeJS",self.duracao4,10.00)
 
 		for atividade in [palestra,tutorial,mini_curso,hackathon]:
-			evento.adicionar_atividade(atividade)
+			self.evento.adicionar_atividade(atividade)
 
 		participante = Pessoa("Marlysson",20,TipoSexo.MASCULINO)
 
-		inscricao = Inscricao(participante,evento)
+		inscricao = Inscricao(participante,self.evento)
 		
 		for atividade in [palestra,hackathon,tutorial]:
 			inscricao.adicionar_atividade(atividade)
-
+	
 	@unittest.skip("Não implementado")
 	def test_deve_gerar_excecao_quando_ocorrer_uma_inscricao_fora_do_prazo(self):
 		

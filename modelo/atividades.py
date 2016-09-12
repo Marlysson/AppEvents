@@ -11,11 +11,20 @@ sys.path.append(app)
 from abstracoes.item_evento import ItemEvento
 
 class AtividadeSimples(ItemEvento):
-	def __init__(self,tipo,descricao,horario,preco=0.0):
+	def __init__(self,tipo,descricao,duracao,preco=0.0):
 		self.tipo = tipo
 		self.descricao = descricao
-		self.horario = horario
+		self.duracao = duracao
 		self.preco = float(preco)
+
+
+	@property
+	def horario_inicio(self):
+		return self.duracao.inicio
+
+	@property
+	def horario_final(self):
+		return self.duracao.final
 
 	@property
 	def preco_total(self):

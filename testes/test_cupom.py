@@ -18,8 +18,7 @@ class TestCupom(unittest.TestCase):
 
 	def test_deve_ser_ativo_se_estar_no_periodo_da_validade(self):
 		
-		# validade_futura = date.today() + timedelta(days=7)
-		validade_futura = Horario().mais("7 dias").data
+		validade_futura = Horario().mais("7 dias")
 		cupom = Cupom("ANDROID_10",0.1,validade_futura)
 
 		validade = cupom.valido
@@ -28,10 +27,9 @@ class TestCupom(unittest.TestCase):
 
 	def test_nao_deve_ser_ativo_se_estiver_fora_da_validade(self):
 
-		hoje = date.today()
-		dia_anterior = hoje - timedelta(days=1)
+		validade = Horario("11/11/2011 10:00")
 
-		cupom = Cupom("BAIXA_TUDO_10",0.1,dia_anterior)
+		cupom = Cupom("BAIXA_TUDO_10",0.1,validade)
 
 		validade = cupom.valido
 
@@ -39,7 +37,8 @@ class TestCupom(unittest.TestCase):
 
 	def test_deve_validar_um_cupom_nulo(self):
 
-		validade = date.today() + timedelta(days=1)
+		validade = Horario().mais("7 dias")
+
 		cupom_nulo = Cupom("CupomNulo",0.0,validade,DescontoNulo)
 		
 		self.assertTrue(cupom_nulo.valido)

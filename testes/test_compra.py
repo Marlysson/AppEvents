@@ -33,22 +33,33 @@ from abstracoes.exceptions import CupomNaoEncontradoNoEvento
 #Descontos
 from abstracoes.descontos import DescontoTutorial , DescontoWorkshop , DescontoHackathon, DescontoGeral
 
+from services.horario import Horario
+from services.duracao import Duracao
+
 class TestCompraInscricao(unittest.TestCase):
 
 	def setUp(self):
 
-		self.hoje = datetime.now()
-		self.data_cupons = date.today()
+		self.hoje = Horario()
 
-		inicio_evento = self.hoje + timedelta(days=1)
-		final_evento = inicio_evento + timedelta(days=2)
+		data_inicio = self.hoje.mais("1 dia")
+		self.duracao_evento = Duracao(data_inicio,durando="3 dias")
+
+		self.prazo_inscricoes = self.hoje.mais("1 dia")
+
+		self.duracao1 = Duracao(data_inicio,durando="50 minutos")
+		self.duracao2 = Duracao(self.duracao1.horario_final,durando="50 minutos")
+		self.duracao3 = Duracao(self.duracao2.horario_final,durando="50 minutos")
+		self.duracao4 = Duracao(self.duracao3.horario_final,durando="50 minutos")
+
+		self.data_cupons = Horario()
 		
 		#Horario Atividades
-		horario_tutorial = inicio_evento + timedelta(minutes=10)	
-		horario_palestra = horario_tutorial + timedelta(minutes=30)
-		horario_mesa_redonda = horario_palestra + timedelta(minutes=30)
-		horario_workshop = horario_mesa_redonda + timedelta(minutes=60)
-		horario_hackathon = horario_workshop + timedelta(minutes=60)
+		horario_tutorial     = self.duracao1
+		horario_palestra     = self.duracao2
+		horario_mesa_redonda = self.duracao3
+		horario_workshop     = self.duracao4
+		horario_hackathon    = Duracao(horario_workshop.inicio,durando="50 minutos")
 		
 		#Participante
 		self.participante1 = Pessoa("Marlysson",18,TipoSexo.MASCULINO)
@@ -64,10 +75,10 @@ class TestCompraInscricao(unittest.TestCase):
 		self.workshop2     = AtividadeSimples(TipoAtividade.WORKSHOP,"Python no Ensino",horario_workshop,25.00)
 
 		horarios_cupons = {
-			"valido1" :   self.data_cupons + timedelta(days=1),
-			"valido2" :   self.data_cupons + timedelta(days=1),
-			"invalido1" : self.data_cupons - timedelta(days=2),
-			"invalido2":  self.data_cupons - timedelta(days=2)
+			"valido1" :   self.data_cupons.mais("1 dia"),
+			"valido2" :   self.data_cupons.mais("1 dia"),
+			"invalido1" : Horario("11/10/2015 16:00"),
+			"invalido2":  Horario("20/1/2016 10:00")
 		}
 
 		self.cupom_geral = Cupom("LOTE_1",0.5,horarios_cupons.get("valido1"))
@@ -82,8 +93,8 @@ class TestCompraInscricao(unittest.TestCase):
 		self.cupom_hackathon = Cupom("HACKATHON_50",0.5,horarios_cupons.get("invalido2"))
 		self.cupom_hackathon.regra = DescontoHackathon()
 
-		self.evento = Evento("Software Freedom Day","Descrição do Evento",inicio_evento,final_evento)
-		self.evento.prazo_inscricoes = date.today() + timedelta(days=3)
+		self.evento = Evento("Software Freedom Day","Descrição do Evento",self.duracao_evento)
+		self.evento.prazo_inscricoes = self.prazo_inscricoes
 
 		atividades = [self.palestra , self.tutorial , self.mesa_redonda , self.workshop1 , self.workshop2 , self.hackathon ]
 
