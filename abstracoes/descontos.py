@@ -8,7 +8,7 @@ app = os.path.dirname(diretorio_atual)
 
 sys.path.append(app)
 
-from modelo.atividade import Atividade
+from modelo.atividade import AtividadeSimples
 from abc import ABCMeta , abstractmethod
 
 class Desconto(metaclass=ABCMeta):
@@ -59,4 +59,4 @@ class DescontoNulo(Desconto):
 
 		from datetime import datetime
 
-		return [ Atividade("Padrão","Padrão",datetime.now(),0.0) ]
+		return [ AtividadeSimples("Padrão","Padrão",datetime.now(),0.0) ]
