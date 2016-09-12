@@ -22,77 +22,81 @@ from enums.tipo_atividade import TipoAtividade
 from abstracoes.exceptions import EventoDataInvalida
 from abstracoes.exceptions import AtividadeJaExisteNoEvento
 
+#Services
+from services.horario import Horario
+from services.duracao import Duracao
+
 class TestEvento(unittest.TestCase):
-	
+		
 	def setUp(self):
 
-		self.hoje = datetime.now()
+		self.hoje = Horario()
 
-		data_inicio = self.hoje + timedelta(10)
+		data_inicio = self.hoje.mais("10 dias")
 
-		data_finalizacao = data_inicio + timedelta(days=3)
+		duracao = Duracao(data_inicio,durando="3 dias")
 
-		self.evento = Evento("Semana de informática","asdasdasd",data_inicio,data_finalizacao)
+		self.evento = Evento("Semana de informática","asdasdasd",duracao)
 
-		self.palestra = AtividadeSimples(TipoAtividade.PALESTRA,"Acessibilidade Web",datetime.now(),0.0)
-		self.tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Javascript funcional",datetime.now(),15.00)
-		self.mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Javascript - Best Pratices",datetime.now(),30.00)
-
+		self.palestra = AtividadeSimples(TipoAtividade.PALESTRA,"Acessibilidade Web",self.hoje,0.0)
+		self.tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Javascript funcional",self.hoje,15.00)
+		self.mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Javascript - Best Pratices",self.hoje,30.00)
+	
 	def test_deve_criar_evento_com_nome_e_descricao_nao_publicado(self):
 		self.assertEqual(StatusEvento.NAO_PUBLICADO,self.evento.visibilidade)
-
+	
 	def test_deve_alterar_visibilidade_valida_do_evento(self):
 
 		self.evento.mudar_visibilidade(StatusEvento.PUBLICADO)
 
 		self.assertEqual(StatusEvento.PUBLICADO,self.evento.visibilidade)
-
+	
 	def test_deve_retornar_exception_com_visibilidade_invalida(self):
 
 		with self.assertRaises(ValueError):
 			self.evento.mudar_visibilidade("Visibilidade Inválida")
-
+	
 	def test_deve_iniciar_evento_com_status_nao_iniciado(self):
 		self.assertEqual(StatusEvento.NAO_INICIADO,self.evento.ocorrencia)
-
+	
 	def test_evento_recem_criado_deve_ter_zero_atividades(self):
 		
 		self.assertEqual(0,len(self.evento.atividades))
-
+	
 	def test_evento_com_atividades_adicionadas(self):
 
 		for atividade in [self.palestra,self.tutorial,self.mini_curso]:
 			self.evento.adicionar_atividade(atividade)
 
 		self.assertEqual(3,len(self.evento.atividades))
-
+	
 	def test_nao_deve_aceitar_eventos_data_passada(self):
 		
-		data_inicio = datetime(2015,1,1,12,0,0)
+		data_inicio = Horario("1/1/2015 12:00")
 
-		data_final = data_inicio + timedelta(days=3)
+		duracao = Duracao(data_inicio,durando="3 dias")
 
 		with self.assertRaises(EventoDataInvalida):
-			evento_erro = Evento("Python Day","Evento de Python",data_inicio,data_final)
-
+			evento_erro = Evento("Python Day","Evento de Python",duracao)
+	
 	def test_deve_aceitar_eventos_com_data_hoje_ou_futura(self):
 
-		inicio1 = self.hoje + timedelta(days=1)
-		final1 = inicio1 + timedelta(days=2)
+		duracao1 = Duracao(self.hoje,durando="2 dias")
+		
+		inicio2 = self.hoje.mais("10 dias")
+		duracao2 = Duracao(inicio2,durando="10 dias")
 
-		inicio2 = self.hoje + timedelta(days=10)
-		final2 = inicio2 + timedelta(days=2)
+		evento1 = Evento("Python Beach","Python na praia",duracao1)
 
-		evento1 = Evento("Python Beach","Python na praia",inicio1,final1)
-
-		evento2 = Evento("Java Day","Java na Prática",inicio2,final2)
-
+		evento2 = Evento("Java Day","Java na Prática",duracao2)
+	
 	def test_deve_gerar_excecao_quando_adicionar_atividades_repetidas_no_evento(self):
+		
+		inicio = self.hoje.mais("2 dias")
 
-		inicio = self.hoje + timedelta(days=10)
-		final = inicio + timedelta(days=2)
+		duracao = Duracao(inicio,durando="2 dias")
 
-		evento = Evento("Python Beach","Python na praia",inicio,final)
+		evento = Evento("Python Beach","Python na praia",duracao)
 
 		with self.assertRaises(AtividadeJaExisteNoEvento):
 			

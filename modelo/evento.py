@@ -13,22 +13,27 @@ from modelo.cupom import Cupom
 
 from enums.status_evento import StatusEvento
 
+#Abstracoes
 from abstracoes.exceptions import EventoDataInvalida
 from abstracoes.exceptions import AtividadeJaExisteNoEvento
 from abstracoes.exceptions import InscricaoJaExisteNoEvento
 from abstracoes.exceptions import PeriodoInvalidoParaInscricoes
-
 from abstracoes.descontos import DescontoNulo
+
+#Services
+from services.horario import Horario
+from services.duracao import Duracao
 
 class Evento(object):
 
-	def __init__(self,nome,descricao,data_inicio,data_final):
+	def __init__(self,nome,descricao,duracao):
 
 		self.nome          = nome
 		self.descricao     = descricao
 		
-		self.data_inicio   = data_inicio
-		self.data_final    = data_final
+		self.duracao       = duracao
+		# self.data_inicio   = data_inicio
+		# self.data_final    = data_final
 		
 		self.visibilidade  = StatusEvento.NAO_PUBLICADO
 		self.ocorrencia    = StatusEvento.NAO_INICIADO
@@ -53,18 +58,26 @@ class Evento(object):
 		return False
 
 	@property
-	def data_inicio(self):
-		return self._data_inicio
+	def horario_inicio(self):
+		return self._duracao.inicio
 
-	@data_inicio.setter
-	def data_inicio(self,data):
+	@property
+	def horario_final(self):
+		return self._duracao.final
+	
+	@property
+	def duracao(self):
+		return self._duracao
 
-		hoje = datetime.now()
+	@duracao.setter
+	def duracao(self,duracao):
+		
+		hoje = Horario()
 
-		if data < hoje:
+		if duracao.inicio.com_horas < hoje.com_horas:
 			raise EventoDataInvalida("Data de Início Inválida")
-		else:
-			self._data_inicio = data
+	
+		self._duracao = duracao		
 			
 	@property
 	def ocorrencia(self):
