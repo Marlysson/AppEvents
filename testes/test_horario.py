@@ -8,7 +8,6 @@ diretorio_atual = os.getcwd()
 app = os.path.dirname(diretorio_atual)
 
 sys.path.append(app)
-
 from services.horario import Horario
 from datetime import datetime , date , timedelta
 
@@ -55,14 +54,6 @@ class TestHorario(unittest.TestCase):
 		horario = Horario().mais("2 dias").data
 
 		self.assertEqual(dois_dias,horario)
-
-	def test_deve_retornar_horario_correto_quando_somar_meses(self):
-
-		horario = Horario("01/11/2016 16:00").mais("2 meses").com_horas
-
-		data_posterior = datetime(2016,12,31,16,0,0)
-
-		self.assertEqual(horario,data_posterior)
 
 	def test_deve_retornar_horario_correto_quando_adicionar_minutos(self):
 
