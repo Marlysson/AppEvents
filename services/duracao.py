@@ -21,7 +21,7 @@ class Duracao(object):
 
 	def validar(self):
 
-		if (self.inicio.com_horas - self.final.com_horas).seconds == 0:
+		if self.final.com_horas <= self.inicio.com_horas:
 			raise DuracaoDeTempoInvalida("Duração Inválida")
 
 	def __repr__(self):

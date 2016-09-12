@@ -45,7 +45,7 @@ class Horario(object):
 
 	@property
 	def com_horas(self):
-	    return datetime(self.ano,self.mes,self.dia,self.hora,self.minuto)
+	    return datetime(self.ano,self.mes,self.dia,self.hora,self.minuto,0)
 
 	@property
 	def data(self):
