@@ -11,7 +11,7 @@ app = os.path.dirname(diretorio_atual)
 sys.path.append(app)
 
 #Modelos
-from modelo.atividade import Atividade
+from modelo.atividades import AtividadeSimples
 from modelo.evento import Evento
 
 #Enums
@@ -34,9 +34,9 @@ class TestEvento(unittest.TestCase):
 
 		self.evento = Evento("Semana de informática","asdasdasd",data_inicio,data_finalizacao)
 
-		self.palestra = Atividade(TipoAtividade.PALESTRA,"Acessibilidade Web",datetime.now(),0.0)
-		self.tutorial = Atividade(TipoAtividade.TUTORIAL,"Javascript funcional",datetime.now(),15.00)
-		self.mini_curso = Atividade(TipoAtividade.MINI_CURSO,"Javascript - Best Pratices",datetime.now(),30.00)
+		self.palestra = AtividadeSimples(TipoAtividade.PALESTRA,"Acessibilidade Web",datetime.now(),0.0)
+		self.tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Javascript funcional",datetime.now(),15.00)
+		self.mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Javascript - Best Pratices",datetime.now(),30.00)
 
 	def test_deve_criar_evento_com_nome_e_descricao_nao_publicado(self):
 		self.assertEqual(StatusEvento.NAO_PUBLICADO,self.evento.visibilidade)

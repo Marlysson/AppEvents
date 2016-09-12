@@ -8,7 +8,7 @@ app = os.path.dirname(diretorio_atual)
 
 sys.path.append(app)
 
-from modelo.atividade import AtividadeSimples
+from modelo.atividades import AtividadeSimples
 from abc import ABCMeta , abstractmethod
 
 class Desconto(metaclass=ABCMeta):

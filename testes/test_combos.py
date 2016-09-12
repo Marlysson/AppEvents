@@ -8,7 +8,7 @@ app = os.path.dirname(diretorio_atual)
 
 sys.path.append(app)
 
-from modelo.atividade import AtividadeSimples , KitAtividade
+from modelo.atividades import AtividadeSimples , KitAtividade
 from enums.tipo_atividade import TipoAtividade
 from services.horario import Horario
 

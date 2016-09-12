@@ -11,7 +11,7 @@ app = os.path.dirname(diretorio_atual)
 sys.path.append(app)
 
 #Modelos
-from modelo.atividade import Atividade
+from modelo.atividades import AtividadeSimples
 from modelo.evento import Evento
 from modelo.pessoa import Pessoa
 from modelo.inscricao import Inscricao
@@ -42,10 +42,10 @@ class TestInscricao(unittest.TestCase):
 		self.evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
 		self.evento.prazo_inscricoes = self.prazo_inscricoes
 
-		self.palestra = Atividade(TipoAtividade.PALESTRA,"Introdução à Vuejs",datetime.now(),0.0)
-		self.tutorial = Atividade(TipoAtividade.TUTORIAL,"Iniciando com Unittest",datetime.now(),15.00)
-		self.mini_curso = Atividade(TipoAtividade.MINI_CURSO,"Python Avançado",datetime.now(),30.00)
-		self.hackathon = Atividade(TipoAtividade.HACKATHON,"Hackeando Dados Públicos",datetime.now(),10.00)
+		self.palestra = AtividadeSimples(TipoAtividade.PALESTRA,"Introdução à Vuejs",datetime.now(),0.0)
+		self.tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Iniciando com Unittest",datetime.now(),15.00)
+		self.mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Python Avançado",datetime.now(),30.00)
+		self.hackathon = AtividadeSimples(TipoAtividade.HACKATHON,"Hackeando Dados Públicos",datetime.now(),10.00)
 
 		self.participante = Pessoa("Marlysson",20,TipoSexo.MASCULINO)
 	
@@ -107,10 +107,10 @@ class TestInscricao(unittest.TestCase):
 
 	def test_deve_aceitar_adicionar_atividades_que_estejam_no_seu_evento(self):
 
-		palestra = Atividade(TipoAtividade.PALESTRA,"CSS Escalável",datetime.now(),0.0)
-		tutorial = Atividade(TipoAtividade.TUTORIAL,"Javascript e SVG",datetime.now(),15.00)
-		mini_curso = Atividade(TipoAtividade.MINI_CURSO,"Javascript + StorageLocal",datetime.now(),30.00)
-		hackathon = Atividade(TipoAtividade.HACKATHON,"Aplicações em NodeJS",datetime.now(),10.00)
+		palestra = AtividadeSimples(TipoAtividade.PALESTRA,"CSS Escalável",datetime.now(),0.0)
+		tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Javascript e SVG",datetime.now(),15.00)
+		mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Javascript + StorageLocal",datetime.now(),30.00)
+		hackathon = AtividadeSimples(TipoAtividade.HACKATHON,"Aplicações em NodeJS",datetime.now(),10.00)
 
 		hoje = datetime.now()
 
@@ -153,4 +153,4 @@ class TestInscricao(unittest.TestCase):
 			inscricao = Inscricao(self.participante,evento)
 
 if __name__ == "__main__":
-	unittest.main()
+	unittest.main(verbosity=2)

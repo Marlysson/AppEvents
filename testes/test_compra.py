@@ -14,7 +14,7 @@ sys.path.append(app)
 #Modelos
 from modelo.evento import Evento
 from modelo.inscricao import Inscricao
-from modelo.atividade import Atividade
+from modelo.atividades import AtividadeSimples
 from modelo.pessoa import Pessoa
 from modelo.cupom import Cupom
 from modelo.compra import Compra
@@ -55,13 +55,13 @@ class TestCompraInscricao(unittest.TestCase):
 		self.participante2 = Pessoa("Marcos",25,TipoSexo.MASCULINO)
 
 		#Atividades
-		self.palestra     = Atividade(TipoAtividade.PALESTRA,"Lucrando com open-source",horario_palestra,0.0)
-		self.tutorial     = Atividade(TipoAtividade.TUTORIAL,"Boas Práticas com Django",horario_tutorial,15.00)
-		self.mesa_redonda = Atividade(TipoAtividade.MESA_REDONDA,"Pirataria na Web",horario_mesa_redonda,0.0)
-		self.hackathon    = Atividade(TipoAtividade.HACKATHON,"Soluções Financeiras - Nubank",horario_hackathon,50.00)
+		self.palestra     = AtividadeSimples(TipoAtividade.PALESTRA,"Lucrando com open-source",horario_palestra,0.0)
+		self.tutorial     = AtividadeSimples(TipoAtividade.TUTORIAL,"Boas Práticas com Django",horario_tutorial,15.00)
+		self.mesa_redonda = AtividadeSimples(TipoAtividade.MESA_REDONDA,"Pirataria na Web",horario_mesa_redonda,0.0)
+		self.hackathon    = AtividadeSimples(TipoAtividade.HACKATHON,"Soluções Financeiras - Nubank",horario_hackathon,50.00)
 		
-		self.workshop1     = Atividade(TipoAtividade.WORKSHOP,"Python na Ciência",horario_workshop,30.00)
-		self.workshop2     = Atividade(TipoAtividade.WORKSHOP,"Python no Ensino",horario_workshop,25.00)
+		self.workshop1     = AtividadeSimples(TipoAtividade.WORKSHOP,"Python na Ciência",horario_workshop,30.00)
+		self.workshop2     = AtividadeSimples(TipoAtividade.WORKSHOP,"Python no Ensino",horario_workshop,25.00)
 
 		horarios_cupons = {
 			"valido1" :   self.data_cupons + timedelta(days=1),
