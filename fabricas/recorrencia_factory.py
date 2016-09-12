@@ -18,8 +18,8 @@ class FactoryRecorrencia(object):
 	@staticmethod
 	def criar(horario,string):
 		
-		if string.lower() in ["meses","mes"]:
-			return SomadorMes(horario)
+		if string.lower() in ["hora","horas"]:
+			return SomadorHora(horario)
 
 		elif string.lower() in ["dias" , "dia"]:
 			return SomadorDia(horario)
@@ -39,12 +39,10 @@ class SomadorRecorrencia(metaclass=ABCMeta):
 	def somar(self,quantidade):
 		raise NotImplementedError("Método 'somar' não implementado")
 
-class SomadorMes(SomadorRecorrencia):
+class SomadorHora(SomadorRecorrencia):
 
 	def somar(self,quantidade):
-		meses = quantidade * 30
-
-		self.horario = self.horario.com_horas + timedelta(days=meses)
+		self.horario = self.horario.com_horas + timedelta(hours=quantidade)
 
 		return self.horario
 

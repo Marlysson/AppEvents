@@ -28,6 +28,16 @@ class TestaDuracao(unittest.TestCase):
 
 		self.assertEqual(duracao,40)
 
+	def test_deve_retornar_duracao_de_atividade_corretamente_com_horas(self):
+
+		inicio = Horario("10/10/2016 15:00")
+
+		duracao = Duracao(inicio,durando="2 horas")
+
+		duracao = (duracao.final.com_horas - duracao.inicio.com_horas).seconds / (60 * 60)
+
+		self.assertEqual(duracao,2)
+
 	def test_deve_gerar_excecao_ao_associar_duracao_invalida(self):
 
 		inicio = Horario("12/12/2016 20:00")
