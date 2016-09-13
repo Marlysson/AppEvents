@@ -32,9 +32,7 @@ class Evento(object):
 		self.descricao     = descricao
 		
 		self.duracao       = duracao
-		# self.data_inicio   = data_inicio
-		# self.data_final    = data_final
-		
+
 		self.visibilidade  = StatusEvento.NAO_PUBLICADO
 		self.ocorrencia    = StatusEvento.NAO_INICIADO
 		
@@ -43,8 +41,7 @@ class Evento(object):
 		self.atividades    = list()
 		self.inscricoes    = list()
 
-
-		validade = date.today() + timedelta(days=1)
+		validade = Horario().mais("1 dia")
 		cupom_nulo = Cupom("CupomNulo",0.0,validade,DescontoNulo)
 		
 		self.cupons        = [ cupom_nulo ]

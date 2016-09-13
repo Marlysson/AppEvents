@@ -25,8 +25,6 @@ class Inscricao(object):
 		self.data_pagamento = None
 		self.paga 			= False
 
-		self.evento.adicionar_inscricao(self)
-
 	def __eq__(self,inscricao):
 		
 		if self.__dict__ == inscricao.__dict__:

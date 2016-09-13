@@ -52,6 +52,9 @@ class Compra(object):
 		self.inscricao.paga = True
 		self.inscricao.data_pagamento = date.today()
 
+		evento = self.inscricao.evento
+		evento.adicionar_inscricao(self.inscricao)
+
 		self.troco = valor_pago - self.preco_total
 
 	def aplicar_cupom(self,cupom):

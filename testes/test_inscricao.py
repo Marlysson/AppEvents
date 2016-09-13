@@ -15,6 +15,7 @@ from modelo.atividades import AtividadeSimples
 from modelo.evento import Evento
 from modelo.pessoa import Pessoa
 from modelo.inscricao import Inscricao
+from modelo.compra import Compra
 
 #Enums
 from enums.tipo_atividade import TipoAtividade
@@ -30,6 +31,7 @@ from abstracoes.exceptions import PeriodoInvalidoParaInscricoes
 #Services
 from services.horario import Horario
 from services.duracao import Duracao
+
 
 class TestInscricao(unittest.TestCase):
 	
@@ -71,10 +73,15 @@ class TestInscricao(unittest.TestCase):
 	
 	def test_deve_gerar_excecao_quando_se_inscrever_repetidamente_no_evento(self):
 
-		with self.assertRaises(InscricaoJaExisteNoEvento):
+		inscricao1 =  Inscricao(self.participante,self.evento)
+		inscricao2 =  Inscricao(self.participante,self.evento)
 
-			inscricao1 =  Inscricao(self.participante,self.evento)
-			inscricao2 = Inscricao(self.participante,self.evento)
+		compra = Compra(inscricao1)
+		compra.pagar(10)
+
+		with self.assertRaises(InscricaoJaExisteNoEvento):
+			compra = Compra(inscricao2)
+			compra.pagar(10)
 	
 	def test_deve_gerar_excecao_ao_adicionar_atividade_repetida_na_inscricao(self):
 		
