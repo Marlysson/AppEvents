@@ -17,6 +17,8 @@ class AtividadeSimples(ItemEvento):
 		self.duracao = duracao
 		self.preco = float(preco)
 
+		self.espaco = None
+		self.inscritos = list()
 
 	@property
 	def horario_inicio(self):
@@ -30,6 +32,11 @@ class AtividadeSimples(ItemEvento):
 	def preco_total(self):
 		return self.preco
 
+	def definir_espaco(self,espaco):
+		self.espaco = espaco
+
+	def add_inscrito(self,participante):
+		self.inscritos.append(participante)
 
 class KitAtividade(ItemEvento):
 

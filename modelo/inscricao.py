@@ -18,9 +18,9 @@ class Inscricao(object):
 
 	def __init__(self,participante,evento):
 		
+		self.participante   = participante
 		self.evento         = evento
 		self.atividades     = []
-		self.participante   = participante
 		
 		self.data_pagamento = None
 		self.paga 			= False

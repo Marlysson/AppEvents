@@ -49,13 +49,26 @@ class Compra(object):
 		if valor_pago < self.preco_total:
 			raise ValorPagoInferior("Valor inválido")
 
-		self.inscricao.paga = True
-		self.inscricao.data_pagamento = date.today()
-
-		evento = self.inscricao.evento
-		evento.adicionar_inscricao(self.inscricao)
+		self.confirmar_inscricao(self.inscricao)
 
 		self.troco = valor_pago - self.preco_total
+
+	def confirmar_inscricao(self,inscricao):
+
+		inscricao.paga = True
+		inscricao.data_pagamento = date.today()
+
+		evento = inscricao.evento
+		evento.adicionar_inscricao(self.inscricao)
+
+		for atividade in inscricao.atividades:
+			
+			espaco_fisico = atividade.espaco
+
+			espaco_fisico.add_inscrito(inscricao.participante)
+
+			atividade.add_inscrito(inscricao.participante)
+
 
 	def aplicar_cupom(self,cupom):
 
