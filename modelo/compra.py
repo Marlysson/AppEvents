@@ -26,7 +26,7 @@ class Compra(object):
 	def __init__(self,inscricao):
 		
 		self.calculador = CalculadorPreco()
-		self.inscricao = inscricao
+		self.inscricao  = inscricao
 
 		self.troco = 0.0
 
@@ -62,13 +62,8 @@ class Compra(object):
 		evento.adicionar_inscricao(self.inscricao)
 
 		for atividade in inscricao.atividades:
-			
-			espaco_fisico = atividade.espaco
-
-			espaco_fisico.add_inscrito(inscricao.participante)
-
 			atividade.add_inscrito(inscricao.participante)
-
+		
 
 	def aplicar_cupom(self,cupom):
 
