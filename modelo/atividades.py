@@ -34,8 +34,13 @@ class AtividadeSimples(ItemEvento):
 
 	def definir_espaco(self,espaco):
 		self.espaco = espaco
+		espaco.atividade = self
 
 	def add_inscrito(self,participante):
+		
+		if len(self.inscritos) == self.espaco.capacidade:
+			raise ValueError("Capacidade máxima do espaço atingida")
+
 		self.inscritos.append(participante)
 
 class KitAtividade(ItemEvento):
