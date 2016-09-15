@@ -1,40 +1,68 @@
 # -*- coding : utf-8 -*-
+import sys,os
 
-class EspacoSimples(EspacoFisico)
+# Adicionando pasta externa para capturar os modelos
+diretorio_atual = os.getcwd()
+app = os.path.dirname(diretorio_atual)
+
+sys.path.append(app)
+
+from abstracoes.espaco_fisico import EspacoFisico
+from modelo.localizacao import Local
+
+class EspacoSimples(EspacoFisico):
 	
-	def __init__(self,descricao,locatao,capacidade):
-		delf.descricao = descricao
-		self.lotacao = lotacao
-		self.inscritos = list()
+	'''
+		:descricao   str
+		:capacidade  int
+		:local       Local
+		:atividade   ItemEvento
+	'''
+
+	def __init__(self,descricao,capacidade,local):
+		self.descricao  = descricao
+		self.capacidade = capacidade
+		self.local 		= local
+
+		self.atividade  = None
 
 	@property
 	def inscritos(self):
-		return tuple(self._inscritos)
-
-	def add_inscrito(self,participante):
-		
-		if len(self.inscritos) > self.lotacao:
-			raise ValueError("Lotação máxima")
-
-		self.inscritos.append(participante)
+		return self.atividade.inscritos
 
 class EspacoComposto(EspacoFisico):
+	
+	'''
+		:descricao  str
+		:local 		Local
+		:espacos    EspacoFisico
+	'''
 
-	def __init__(self,descricao):
-		self.descricao
-		self.espacos_satelites = list()
+	def __init__(self,descricao,local):
+		self.descricao = descricao
+		self.local 	   = local
+		self.espacos   = list()
+
+	@property
+	def capacidade(self):
+		capacidade = 0
+
+		for espaco in self.espacos:
+			capacidade += espaco.capacidade
+
+		return capacidade
 
 	@property
 	def inscritos(self):
 		pessoas = []
 
-		for espaco in self.espacos_satelites:
+		for espaco in self.espacos:
 			pessoas.append(espaco.inscritos)
 
-		return tuple(pessoas)
+		return pessoas
 
 	def add(self,espaco):
-		self.espacos_satelites.append(espaco)
+		self.espacos.append(espaco)
 
 	def remover(self,espaco):
-		self.espacos_satelites.remove(espaco)
+		self.espacos.remove(espaco)
