@@ -47,7 +47,7 @@ class Inscricao(object):
 	def adicionar_atividade(self,atividade):
 
 		if self.paga:
-			raise InscricaoJaPagaNaoAceitaInscricoes("Não é permitido mais inscrições")
+			raise InscricaoJaPagaNaoAceitaItens("Não é permitido mais inscrições")
 
 		if not self.atividade_valida(atividade):
 			raise AtividadeNaoEncontradaNoEvento("Atividade Não Encontrada")

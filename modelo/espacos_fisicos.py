@@ -30,12 +30,15 @@ class EspacoSimples(EspacoFisico):
 	def inscritos(self):
 		return self.atividade.inscritos
 
+	def gerar_agenda(self):
+		return self.atividade
+
 class EspacoComposto(EspacoFisico):
 	
 	'''
 		:descricao  str
 		:local 		Local
-		:espacos    EspacoFisico
+		:espacos    list<EspacoFisico>
 	'''
 
 	def __init__(self,descricao,local):
@@ -60,6 +63,16 @@ class EspacoComposto(EspacoFisico):
 			pessoas.append(espaco.inscritos)
 
 		return pessoas
+
+	def gerar_agenda(self):
+		atividades = []
+
+		for atividade in self.espacos:
+			atividades = atividade.gerar_agenda()
+
+			atividades.append(atividades)
+
+		return atividades
 
 	def add(self,espaco):
 		self.espacos.append(espaco)

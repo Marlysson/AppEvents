@@ -28,7 +28,7 @@ class AtividadeNaoEncontradaNoEvento(ValueError):
 class PeriodoInvalidoParaInscricoes(ValueError):
 	pass
 
-class InscricaoJaPagaNaoAceitaInscricoes(ValueError):
+class InscricaoJaPagaNaoAceitaItens(ValueError):
 	pass
 
 
