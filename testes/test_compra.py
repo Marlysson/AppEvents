@@ -18,6 +18,7 @@ from modelo.atividades import AtividadeSimples
 from modelo.pessoa import Pessoa
 from modelo.cupom import Cupom
 from modelo.compra import Compra
+from modelo.espacos_fisicos import EspacoSimples
 
 #Enums
 from enums.tipo_sexo import TipoSexo
@@ -25,7 +26,7 @@ from enums.tipo_atividade import TipoAtividade
 
 #Exceções
 from abstracoes.exceptions import ValorPagoInferior
-from abstracoes.exceptions import InscricaoJaPagaNaoAceitaInscricoes
+from abstracoes.exceptions import InscricaoJaPagaNaoAceitaItens
 from abstracoes.exceptions import InscricaoJaPaga
 from abstracoes.exceptions import CupomExpirado
 from abstracoes.exceptions import CupomNaoEncontradoNoEvento
@@ -64,6 +65,14 @@ class TestCompraInscricao(unittest.TestCase):
 		#Participante
 		self.participante1 = Pessoa("Marlysson",18,TipoSexo.MASCULINO)
 		self.participante2 = Pessoa("Marcos",25,TipoSexo.MASCULINO)
+		
+		#Salas
+		self.sala1 = EspacoSimples("Sala-01",50,None)
+		self.sala2 = EspacoSimples("Sala-02",50,None)
+		self.sala3 = EspacoSimples("Sala-03",50,None)
+		self.sala4 = EspacoSimples("Sala-04",50,None)
+		self.sala5 = EspacoSimples("Sala-05",50,None)
+		self.sala6 = EspacoSimples("Sala-06",50,None)
 
 		#Atividades
 		self.palestra     = AtividadeSimples(TipoAtividade.PALESTRA,"Lucrando com open-source",horario_palestra,0.0)
@@ -73,6 +82,13 @@ class TestCompraInscricao(unittest.TestCase):
 		
 		self.workshop1     = AtividadeSimples(TipoAtividade.WORKSHOP,"Python na Ciência",horario_workshop,30.00)
 		self.workshop2     = AtividadeSimples(TipoAtividade.WORKSHOP,"Python no Ensino",horario_workshop,25.00)
+
+		self.palestra.definir_espaco(self.sala1)
+		self.tutorial.definir_espaco(self.sala2)
+		self.mesa_redonda.definir_espaco(self.sala3)
+		self.hackathon.definir_espaco(self.sala4)
+		self.workshop1.definir_espaco(self.sala5)
+		self.workshop2.definir_espaco(self.sala6)
 
 		horarios_cupons = {
 			"valido1" :   self.data_cupons.mais("1 dia"),
@@ -114,7 +130,6 @@ class TestCompraInscricao(unittest.TestCase):
 
 		self.assertEqual(0,compra.preco_total)
 
-
 	def test_valor_da_inscricao_e_o_valor_dos_seus_itens(self):
 		
 		inscricao = Inscricao(self.participante1,self.evento)
@@ -127,8 +142,7 @@ class TestCompraInscricao(unittest.TestCase):
 		valor_total = compra.preco_total
 
 		self.assertEqual(45.00,valor_total)
-		
-
+	
 	def test_ao_efetuar_compra_settar_inscricao_como_paga(self):
 		
 		inscricao = Inscricao(self.participante2,self.evento)
@@ -141,7 +155,6 @@ class TestCompraInscricao(unittest.TestCase):
 
 		self.assertTrue(inscricao.paga)
 
-
 	def test_deve_gerar_excecao_quando_pagar_uma_inscricao_ja_paga(self):
 
 		inscricao1 = Inscricao(self.participante2,self.evento)
@@ -152,12 +165,9 @@ class TestCompraInscricao(unittest.TestCase):
 		compra1 = Compra(inscricao1)
 		compra1.pagar(150.00)
 
-		compra2 = Compra(inscricao1)
-
 		with self.assertRaises(InscricaoJaPaga):
-			compra2.pagar(100.00)
+			compra1.pagar(100.00)
 			
-
 	def test_deve_retornar_data_de_pagamento_correta_ao_efetuar_compra(self):
 		
 		inscricao = Inscricao(self.participante2,self.evento)
@@ -181,7 +191,6 @@ class TestCompraInscricao(unittest.TestCase):
 
 		self.assertEqual(dia_pagamento,inscricao.data_pagamento)
 
-
 	def test_nao_deve_aplicar_descontos_de_cupons_nao_ativos(self):
 		
 		inscricao = Inscricao(self.participante1,self.evento)
@@ -195,7 +204,6 @@ class TestCompraInscricao(unittest.TestCase):
 
 		with self.assertRaises(CupomExpirado):
 			compra.aplicar_cupom(self.cupom_workshop)
-
 
 	def test_deve_gerar_excecao_quando_aplicar_um_cupom_nao_cadastrado_no_evento(self):
 		
@@ -211,7 +219,6 @@ class TestCompraInscricao(unittest.TestCase):
 		with self.assertRaises(CupomNaoEncontradoNoEvento):
 			compra.aplicar_cupom(self.hackathon)
 
-
 	def test_deve_gerar_excecao_ao_realizar_pagamento_inferior_ao_valor(self):
 
 		inscricao = Inscricao(self.participante1,self.evento)
@@ -224,7 +231,6 @@ class TestCompraInscricao(unittest.TestCase):
 		with self.assertRaises(ValorPagoInferior):
 			compra.pagar(40.00)
 			
-
 	def test_inscricao_paga_nao_deve_aceitar_novos_itens(self):
 
 		inscricao = Inscricao(self.participante1,self.evento)
@@ -235,9 +241,8 @@ class TestCompraInscricao(unittest.TestCase):
 		compra = Compra(inscricao)
 		compra.pagar(150.00)
 
-		with self.assertRaises(InscricaoJaPagaNaoAceitaInscricoes):
+		with self.assertRaises(InscricaoJaPagaNaoAceitaItens):
 			inscricao.adicionar_atividade(self.hackathon)
-
 
 	def test_compra_de_uma_inscricao_com_cupom_deve_retornar_valor_atualizado(self):
 		
@@ -254,7 +259,6 @@ class TestCompraInscricao(unittest.TestCase):
 		valor_compra = compra.preco_total
 
 		self.assertEqual(112.5,valor_compra)
-
 
 	def test_compra_deve_retornar_o_troco_correto_ao_participante(self):
 		
@@ -273,30 +277,6 @@ class TestCompraInscricao(unittest.TestCase):
 		compra.pagar(115.00)
 
 		self.assertEqual(2.5,compra.troco)
-
-
-	def test_compra_deve_descontar_metade_do_preco_da_inscricao_e_retornar_troco_correto(self):
-
-		inscricao = Inscricao(self.participante1,self.evento)
-
-		atividades = [self.tutorial, self.workshop1 , self.workshop2 , self.hackathon]
-		
-		for atividade in atividades:
-			inscricao.adicionar_atividade(atividade)
-
-		compra = Compra(inscricao)
-
-		self.assertEqual(120.00,compra.preco_total)
-
-		compra.aplicar_cupom(self.cupom_geral) #Cupom 50% de desconto Geral
-
-		valor_com_cupom = compra.preco_total
-
-		self.assertEqual(60.00,valor_com_cupom)
-
-		compra.pagar(100.00)
-
-		self.assertEqual(40.00,compra.troco)
 
 
 if __name__ == "__main__":

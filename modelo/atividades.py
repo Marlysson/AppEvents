@@ -33,11 +33,11 @@ class AtividadeSimples(ItemEvento):
 		return self.preco
 
 	def definir_espaco(self,espaco):
+
 		self.espaco = espaco
 		espaco.atividade = self
 
 	def add_inscrito(self,participante):
-		
 		if len(self.inscritos) == self.espaco.capacidade:
 			raise ValueError("Capacidade máxima do espaço atingida")
 
