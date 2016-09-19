@@ -157,16 +157,16 @@ class TestCompraInscricao(unittest.TestCase):
 
 	def test_deve_gerar_excecao_quando_pagar_uma_inscricao_ja_paga(self):
 
-		inscricao1 = Inscricao(self.participante2,self.evento)
+		inscricao = Inscricao(self.participante2,self.evento)
 
-		inscricao1.adicionar_atividade(self.tutorial)
-		inscricao1.adicionar_atividade(self.workshop1)
+		inscricao.adicionar_atividade(self.tutorial)
+		inscricao.adicionar_atividade(self.workshop1)
 
-		compra1 = Compra(inscricao1)
-		compra1.pagar(150.00)
+		compra = Compra(inscricao)
+		compra.pagar(150.00)
 
 		with self.assertRaises(InscricaoJaPaga):
-			compra1.pagar(100.00)
+			compra.pagar(100.00)
 			
 	def test_deve_retornar_data_de_pagamento_correta_ao_efetuar_compra(self):
 		
@@ -183,8 +183,6 @@ class TestCompraInscricao(unittest.TestCase):
 		self.assertEqual(105.00,compra.preco_total)
 
 		compra.pagar(105.00)
-
-		self.assertEqual(0.0,compra.troco)
 
 		from datetime import datetime
 		dia_pagamento = date.today()
