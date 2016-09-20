@@ -25,6 +25,8 @@ class Inscricao(object):
 		self.data_pagamento = None
 		self.paga 			= False
 
+		self.data_checkin = None
+
 	def __eq__(self,inscricao):
 		
 		if self.__dict__ == inscricao.__dict__:
@@ -62,3 +64,11 @@ class Inscricao(object):
 		if atividade in self.evento.atividades:
 			return True
 		return False
+
+	def realizar_checkin(self):
+		from datetime import date
+		hoje = date.today()
+
+		self.evento.inscricoes_confirmadas.append(self)
+
+		self.data_checkin = hoje

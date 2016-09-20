@@ -146,5 +146,26 @@ class TestInscricao(unittest.TestCase):
 		with self.assertRaises(PeriodoInvalidoParaInscricoes):
 			inscricao = Inscricao(self.participante,evento)
 
+	def test_deve_retornar_data_do_checkin_da_inscricao(self):
+		
+		for atividade in [self.palestra,self.tutorial,self.mini_curso,self.hackathon]:
+			self.evento.adicionar_atividade(atividade)
+
+		participante = Pessoa("Marlysson",20,TipoSexo.MASCULINO)
+
+		inscricao = Inscricao(participante,self.evento)
+		
+		for atividade in [self.palestra,self.hackathon,self.tutorial]:
+			inscricao.adicionar_atividade(atividade)
+
+		inscricao.realizar_checkin()
+
+		from datetime import date
+
+		hoje = date.today()
+
+		self.assertEqual(inscricao.data_checkin,hoje)
+
+
 if __name__ == "__main__":
 	unittest.main(verbosity=2)
