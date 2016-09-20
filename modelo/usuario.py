@@ -13,6 +13,7 @@ class Usuario(object):
 		self.senha = senha
 		self.pessoa = pessoa
 		self.estado = None
+		self.eventos_participados = list()
 		
 	def criar_evento(self,evento):
 		pass
