@@ -20,6 +20,8 @@ class AtividadeSimples(ItemEvento):
 		self.espaco = None
 		self.inscritos = list()
 
+		self.ministrantes = list()
+
 	@property
 	def horario_inicio(self):
 		return self.duracao.inicio
@@ -42,6 +44,9 @@ class AtividadeSimples(ItemEvento):
 			raise ValueError("Capacidade máxima do espaço atingida")
 
 		self.inscritos.append(participante)
+
+	def add_responsavel(self,responsavel):
+		self.ministrantes.append(responsavel)
 
 class KitAtividade(ItemEvento):
 
