@@ -40,13 +40,17 @@ class Evento(object):
 		
 		self.atividades    = list()
 		self.inscricoes    = list()
-
+		self.inscricoes_confirmadas = list()
+		
 		validade = Horario().mais("1 dia")
 		cupom_nulo = Cupom("CupomNulo",0.0,validade,DescontoNulo)
 		
 		self.cupons        = [ cupom_nulo ]
 
 		self.local         = None
+
+		self.eventos_satelites = list()
+		self.evento_pai = None
 
 	def __eq__(self,evento):
 
@@ -122,6 +126,14 @@ class Evento(object):
 	
 	def adicionar_cupom(self,cupom):
 		self.cupons.append(cupom)
+
+	def evento_relacionado(self,evento):
+
+		if (evento in self.eventos_satelites):
+			raise ValurError("Evento satélite já cadastrado")
+
+		self.eventos_satelites.add(evento)
+		evento.evento_pai = self
 
 	def __repr__(self):
 		return "{}".format(self.__dict__)
