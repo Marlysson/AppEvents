@@ -52,6 +52,8 @@ class Evento(object):
 		self.eventos_satelites = list()
 		self.evento_pai = None
 
+		self.inscricao_unica = False
+		
 	def __eq__(self,evento):
 
 		if self.__dict__ == evento.__dict__:

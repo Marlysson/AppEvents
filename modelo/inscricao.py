@@ -20,8 +20,13 @@ class Inscricao(object):
 		
 		self.participante   = participante
 		self.evento         = evento
-		self.atividades     = []
-		
+
+		self.atividades = list()
+
+		if self.evento.inscricao_unica:
+			for atividade in evento.atividades:
+				self.atividades.append(atividade)
+			
 		self.data_pagamento = None
 		self.paga 			= False
 

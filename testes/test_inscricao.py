@@ -93,7 +93,7 @@ class TestInscricao(unittest.TestCase):
 		with self.assertRaises(AtividadeJaExisteNaInscricao):
 			
 			for atividade in [self.hackathon,self.palestra,self.hackathon]:
-					inscricao.adicionar_atividade(atividade)
+				inscricao.adicionar_atividade(atividade)
 	
 	def test_deve_gerar_excecao_adicionar_atividade_nao_associada_ao_evento_inscrito(self):
 
@@ -117,9 +117,7 @@ class TestInscricao(unittest.TestCase):
 		for atividade in [palestra,tutorial,mini_curso,hackathon]:
 			self.evento.adicionar_atividade(atividade)
 
-		participante = Pessoa("Marlysson",20,TipoSexo.MASCULINO)
-
-		inscricao = Inscricao(participante,self.evento)
+		inscricao = Inscricao(self.participante,self.evento)
 		
 		for atividade in [palestra,hackathon,tutorial]:
 			inscricao.adicionar_atividade(atividade)
@@ -151,9 +149,7 @@ class TestInscricao(unittest.TestCase):
 		for atividade in [self.palestra,self.tutorial,self.mini_curso,self.hackathon]:
 			self.evento.adicionar_atividade(atividade)
 
-		participante = Pessoa("Marlysson",20,TipoSexo.MASCULINO)
-
-		inscricao = Inscricao(participante,self.evento)
+		inscricao = Inscricao(self.participante,self.evento)
 		
 		for atividade in [self.palestra,self.hackathon,self.tutorial]:
 			inscricao.adicionar_atividade(atividade)
@@ -166,6 +162,20 @@ class TestInscricao(unittest.TestCase):
 
 		self.assertEqual(inscricao.data_checkin,hoje)
 
+	def test_inscricao_unica_deve_adicionar_todas_as_atividades_do_evento_inscrito(self):
+		
+		self.evento.inscricao_unica = True
+
+		tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Javascript e SVG",self.duracao2,15.00)
+		mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Javascript + StorageLocal",self.duracao3,30.00)
+		hackathon = AtividadeSimples(TipoAtividade.HACKATHON,"Aplicações em NodeJS",self.duracao4,10.00)
+
+		for atividade in [tutorial,mini_curso,hackathon]:
+			self.evento.adicionar_atividade(atividade)
+
+		inscricao = Inscricao(self.participante,self.evento)
+		
+		self.assertListEqual(inscricao.atividades,[tutorial,mini_curso,hackathon])
 
 if __name__ == "__main__":
 	unittest.main(verbosity=2)
