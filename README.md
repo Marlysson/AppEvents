@@ -5,15 +5,37 @@ Projeto com o objetivo de inicialmente construir um design de classes coeso e cl
 
 - **Abstrações :** Contém as classes que servem de base para a existência de outras, uma estrutura padrão para classes derivadas implementarem determinado comportamento. Pode conter classes normais, e classes de comportamento ( interfaces ).
 
-- **Documentação :** Contém a modelagem das classes. Possui o arquivo de requisitos do projeto, e imagem + arquivo(tipo) com o diagrama.
+- **Documentação :** Contém a modelagem das classes. Possui o arquivo de requisitos do projeto, e imagem + arquivo modelado( no software astah ) com o diagrama.
+
+- **Fábricas :** Aqui ficarão classes responsáveis pela construção de objetos, não expondo o construtor do mesmo, assim , encapsulando o processo de criação dos objetos.
 
 - **Enums :** Nessa pasta estão os Enums implementados em python, onde cada um deles definem constantes e alguns atributos essenciais para poder servir de suporte à algumas implementações.
 
-- **Modelo** : As classes responsáveis por implementar as entidades que interagem dentro do sistema, fazendo ele funcionar.
+- **Modelo :** As classes responsáveis por implementar as entidades que interagem dentro do sistema, fazendo ele funcionar.
 
-- **Testes :** Pacote responsável pelos testes de integridade e comportamento dos objetos que serão criados ao longo da app.
+- **Services :** Nessa pasta estarão localizados as classes que servirão de suporte para representar algum comportamento/abstração de alguma lib built-in do Python , criando uma abstração legível para se trabalhar no modelo.
 
-## E como ta a modelagem ?
+>Exemplo:
+
+- Abstração da lib date e tratamento de intervalos de tempo.
+
+```python
+>>> horario = Horario()
+>>> horario.mais("1 dia")
+21/09/2016 07:50
+```
+
+```python
+>>> duracao = Duracao(horario,durando="20 minutos")
+>>> duracao.inicio
+21/09/2016 07:50
+>>> duracao.final
+21/09/2016 08:10
+```
+
+- **Testes :** Pacote responsável pelos testes de integridade e comportamento dos objetos que serão criados ao longo da app. Cada requisito do pdf que está em documentação há um teste na medida do possível para ele.
+
+## E como está a modelagem ?
 
 ![Modelagem Design de Classes](/documentação/Diagrama%20AppEventos.png)
 
@@ -33,7 +55,7 @@ cd AppEvents
 
 Basta entrar na pasta **testes** do projeto e rodar o comando:
 ```python
-python -m unittest discover
+python3 -m unittest discover
 ```
 
 Assim rodará todos os testes que estão na pasta respectiva. :+1:
