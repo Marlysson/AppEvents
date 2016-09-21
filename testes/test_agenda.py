@@ -67,23 +67,32 @@ class AgendaEvento(unittest.TestCase):
 		self.predio_B.add(self.andar_1)
 		self.predio_B.add(self.andar_2)
 
+		self.palestra.definir_espaco(self.salas[0])
+		self.tutorial.definir_espaco(self.salas[1])    
+		self.mesa_redonda.definir_espaco(self.salas[2])    
+		self.hackathon.definir_espaco(self.salas[3])    
+
 		self.evento = Evento("Software Freedom Day","Descrição do Evento",self.duracao_evento)
 		self.evento.prazo_inscricoes = self.prazo_inscricoes
-
-		# self.evento.add(self.andar_1)
-		# self.evento.add(self.andar_2)
+		
 		atividades = [self.palestra , self.tutorial , self.mesa_redonda , self.hackathon ]
 
-		for atividade in zip(atividades:
+		for atividade in atividades:
 			self.evento.adicionar_atividade(atividade)
 
-	def test_deve_retornar_lista_de_atividades_ordenada_do_espaco_fisico(self):
-			
-		agenda = self.andar_1.gerar_agenda()
-		print(agenda)
+		self.evento.adicionar_espaco(self.predio_B)
 
-	def test_deve_retornar_lista_de_atividades_ordenada_do_evento(self):
-		pass
+	def test_deve_retornar_lista_de_atividades_ordenada_do_espaco_fisico_simples(self):
+		
+		agenda_evento = self.evento.gerar_agenda()
+
+		self.assertListEqual(agenda_evento,[self.palestra,self.tutorial,self.mesa_redonda,self.hackathon])
+
+	def test_deve_retornar_lista_de_atividades_ordenada_do_espaco_fisico_composto(self):
+		
+		agenda_andar_2 = self.andar_2.gerar_agenda()
+
+		self.assertListEqual(agenda_andar_2,[self.mesa_redonda,self.hackathon])
 
 if __name__ == "__main__":
 	unittest.main(verbosity=2)

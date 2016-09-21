@@ -65,14 +65,22 @@ class EspacoComposto(EspacoFisico):
 		return pessoas
 
 	def gerar_agenda(self):
-		atividades = []
+		lista_atividades = []
 
 		for atividade in self.espacos:
 			atividades = atividade.gerar_agenda()
+			lista_atividades.append(atividades)
 
-			atividades.append(atividades)
+		return list(self.organizar_lista(lista_atividades))
 
-		return atividades
+	def organizar_lista(self,lista):
+
+		for atividade in lista:
+			if isinstance(atividade,list):
+				for atividades in self.organizar_lista(atividade):
+					yield atividades
+			else:
+				yield atividade
 
 	def add(self,espaco):
 		self.espacos.append(espaco)

@@ -54,6 +54,8 @@ class Evento(object):
 
 		self.inscricao_unica = False
 		
+		self.espacos_fisicos = list()
+
 	def __eq__(self,evento):
 
 		if self.__dict__ == evento.__dict__:
@@ -129,6 +131,9 @@ class Evento(object):
 	def adicionar_cupom(self,cupom):
 		self.cupons.append(cupom)
 
+	def adicionar_espaco(self,espaco):
+		self.espacos_fisicos.append(espaco)
+
 	def evento_relacionado(self,evento):
 
 		if (evento in self.eventos_satelites):
@@ -136,6 +141,32 @@ class Evento(object):
 
 		self.eventos_satelites.add(evento)
 		evento.evento_pai = self
+
+	def gerar_agenda(self):
+
+		lista_atividades = []
+
+		if len(self.eventos_satelites) == 0:
+			for espaco in self.espacos_fisicos:
+				atividades = espaco.gerar_agenda()
+				lista_atividades.append(atividades)
+		else:
+
+			for evento in self.eventos_satelites:
+				for atividade in self.evento.atividades:
+					atividades = evento.gerar_agenda()
+					lista_atividades.append(atividades)
+
+		return list(self.organizar_lista(lista_atividades))
+
+	def organizar_lista(self,lista):
+
+		for atividade in lista:
+			if isinstance(atividade,list):
+				for atividades in self.organizar_lista(atividade):
+					yield atividades
+			else:
+				yield atividade
 
 	def __repr__(self):
 		return "{}".format(self.__dict__)
