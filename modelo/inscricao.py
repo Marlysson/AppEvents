@@ -75,7 +75,7 @@ class Inscricao(object):
 		from datetime import date
 		hoje = date.today()
 
-		if self not in evento.inscricoes:
+		if self not in self.evento.inscricoes:
 			raise InscricaoNaoExisteNoEvento("Inscrição não encontrada")
 
 		self.evento.inscricoes_confirmadas.append(self)

@@ -16,6 +16,7 @@ from modelo.evento import Evento
 from modelo.pessoa import Pessoa
 from modelo.inscricao import Inscricao
 from modelo.compra import Compra
+from modelo.espacos_fisicos import EspacoSimples
 
 #Enums
 from enums.tipo_atividade import TipoAtividade
@@ -27,6 +28,7 @@ from abstracoes.exceptions import AtividadeJaExisteNaInscricao
 from abstracoes.exceptions import AtividadeNaoEncontradaNoEvento
 from abstracoes.exceptions import InscricaoJaExisteNoEvento
 from abstracoes.exceptions import PeriodoInvalidoParaInscricoes
+from abstracoes.exceptions import InscricaoNaoExisteNoEvento
 
 #Services
 from services.horario import Horario
@@ -52,10 +54,21 @@ class TestInscricao(unittest.TestCase):
 		self.duracao3 = Duracao(self.duracao2.horario_final,durando="50 minutos")
 		self.duracao4 = Duracao(self.duracao3.horario_final,durando="50 minutos")
 
+		#Salas
+		self.sala1 = EspacoSimples("Sala-01",50,None)
+		self.sala2 = EspacoSimples("Sala-02",50,None)
+		self.sala3 = EspacoSimples("Sala-03",50,None)
+		self.sala4 = EspacoSimples("Sala-04",50,None)
+
 		self.palestra = AtividadeSimples(TipoAtividade.PALESTRA,"Introdução à Vuejs",self.duracao1,0.0)
 		self.tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Iniciando com Unittest",self.duracao2,15.00)
 		self.mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Python Avançado",self.duracao3,30.00)
 		self.hackathon = AtividadeSimples(TipoAtividade.HACKATHON,"Hackeando Dados Públicos",self.duracao4,10.00)
+
+		self.palestra.definir_espaco(self.sala1)
+		self.tutorial.definir_espaco(self.sala2)
+		self.mini_curso.definir_espaco(self.sala3)
+		self.hackathon.definir_espaco(self.sala4)
 
 		self.participante = Pessoa("Marlysson",20,TipoSexo.MASCULINO)
 	
@@ -139,8 +152,6 @@ class TestInscricao(unittest.TestCase):
 		evento.adicionar_atividade(self.tutorial)
 		evento.adicionar_atividade(self.palestra)
 
-		print(evento)
-
 		with self.assertRaises(PeriodoInvalidoParaInscricoes):
 			inscricao = Inscricao(self.participante,evento)
 
@@ -154,6 +165,9 @@ class TestInscricao(unittest.TestCase):
 		for atividade in [self.palestra,self.hackathon,self.tutorial]:
 			inscricao.adicionar_atividade(atividade)
 
+		compra = Compra(inscricao)
+		compra.pagar(25.00)
+
 		inscricao.realizar_checkin()
 
 		from datetime import date
@@ -161,6 +175,20 @@ class TestInscricao(unittest.TestCase):
 		hoje = date.today()
 
 		self.assertEqual(inscricao.data_checkin,hoje)
+
+	def test_deve_gerar_excecao_de_checkin_de_inscricao_nao_encontrada_no_evento(self):
+		
+		for atividade in [self.palestra,self.tutorial,self.mini_curso,self.hackathon]:
+			self.evento.adicionar_atividade(atividade)
+
+		inscricao = Inscricao(self.participante,self.evento)
+		
+		for atividade in [self.palestra,self.hackathon,self.tutorial]:
+			inscricao.adicionar_atividade(atividade)
+
+		with self.assertRaises(InscricaoNaoExisteNoEvento):
+			inscricao.realizar_checkin()
+		
 
 	def test_inscricao_unica_deve_adicionar_todas_as_atividades_do_evento_inscrito(self):
 		
