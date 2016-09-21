@@ -13,6 +13,7 @@ sys.path.append(app)
 from abstracoes.exceptions import AtividadeNaoEncontradaNoEvento
 from abstracoes.exceptions import AtividadeJaExisteNaInscricao
 from abstracoes.exceptions import InscricaoJaPagaNaoAceitaItens
+from abstracoes.exceptions import InscricaoNaoExisteNoEvento
 
 class Inscricao(object):
 
@@ -74,6 +75,8 @@ class Inscricao(object):
 		from datetime import date
 		hoje = date.today()
 
-		self.evento.inscricoes_confirmadas.append(self)
+		if self not in evento.inscricoes:
+			raise InscricaoNaoExisteNoEvento("Inscrição não encontrada")
 
+		self.evento.inscricoes_confirmadas.append(self)
 		self.data_checkin = hoje
