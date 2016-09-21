@@ -1,62 +1,50 @@
 # -*- coding : utf-8 -*-
 
-import sys,os
-
-# # Adicionando pasta externa para capturar os modelos
-diretorio_atual = os.getcwd()
-app = os.path.dirname(diretorio_atual)
-
-sys.path.append(app)
-
-from modelo.atividades import AtividadeSimples
 from abc import ABCMeta , abstractmethod
 
 class Desconto(metaclass=ABCMeta):
 
 	@abstractmethod
-	def obter_atividades(inscricao):
+	def obter_preco(inscricao):
 		raise ValueError("Método 'obter_atividades' não implementada")
 
 
 class DescontoHackathon(Desconto):
 
-	def obter_atividades(self,inscricao):
+	def obter_preco(self,inscricao):
 	    
 	    tipo_atividade = lambda atividade : atividade.tipo.value == "Hackathon"
 
 	    atividades = filter(tipo_atividade,inscricao.atividades)
 
-	    return atividades
+	    return sum([atividade.preco for atividade in atividades])
 
 class DescontoWorkshop(Desconto):
 
-	def obter_atividades(self,inscricao):
+	def obter_preco(self,inscricao):
 	    
 	    tipo_atividade = lambda atividade : atividade.tipo.value == "Workshop"
 
 	    atividades = filter(tipo_atividade,inscricao.atividades)
 
-	    return atividades
+	    return sum([atividade.preco for atividade in atividades])
 	
 class DescontoTutorial(Desconto):
 
-	def obter_atividades(self,inscricao):
+	def obter_preco(self,inscricao):
 
 	    tipo_atividade = lambda atividade : atividade.tipo.value == "Tutorial"
 
 	    atividades = filter(tipo_atividade,inscricao.atividades)
 
-	    return atividades
+	    return sum([atividade.preco for atividade in atividades])
 
 class DescontoGeral(Desconto):
 
-	def obter_atividades(self,inscricao):
-	    return inscricao.atividades
+	def obter_preco(self,inscricao):
+	    return sum([atividade.preco for atividade in inscricao.atividades])
 		
 class DescontoNulo(Desconto):
 
-	def obter_atividades(self,inscricao):
-
-		from datetime import datetime
-
-		return [ AtividadeSimples("Padrão","Padrão",datetime.now(),0.0) ]
+	def obter_preco(self,inscricao):
+		return 0.0

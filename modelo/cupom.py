@@ -33,11 +33,8 @@ class Cupom(object):
 	def obter_desconto(self,inscricao):
 		
 		preco_atividade = 0.0
-		
-		for atividade in self.regra.obter_atividades(inscricao):
-			preco_atividade += atividade.preco
-
-		desconto = self.desconto * preco_atividade
+	
+		desconto = self.desconto * self.regra.obter_preco(inscricao)
 
 		return desconto
 
