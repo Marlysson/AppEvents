@@ -5,7 +5,7 @@ Projeto com o objetivo de inicialmente construir um design de classes coeso e cl
 
 - **Abstrações :** Contém as classes que servem de base para a existência de outras, uma estrutura padrão para classes derivadas implementarem determinado comportamento. Pode conter classes normais, e classes de comportamento ( interfaces ).
 
-- **Documentação :** Contém a modelagem das classes. Possui o arquivo de requisitos do projeto, e imagem + arquivo modelado( no software astah ) com o diagrama.
+- **Documentação :** Contém a modelagem das classes. Possui o arquivo de requisitos do projeto, e imagem + arquivo modelado( no software asta ) com o diagrama.
 
 - **Fábricas :** Aqui ficarão classes responsáveis pela construção de objetos, não expondo o construtor do mesmo, assim , encapsulando o processo de criação dos objetos.
 
