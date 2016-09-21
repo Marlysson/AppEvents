@@ -31,6 +31,9 @@ class PeriodoInvalidoParaInscricoes(ValueError):
 class InscricaoJaPagaNaoAceitaItens(ValueError):
 	pass
 
+class InscricaoNaoExisteNoEvento(ValueError):
+	pass
+		
 
 # Exceções para Compra de Inscrição
 

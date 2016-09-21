@@ -132,7 +132,7 @@ class Evento(object):
 	def evento_relacionado(self,evento):
 
 		if (evento in self.eventos_satelites):
-			raise ValurError("Evento satélite já cadastrado")
+			raise ValueError("Evento satélite já cadastrado")
 
 		self.eventos_satelites.add(evento)
 		evento.evento_pai = self
