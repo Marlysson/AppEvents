@@ -24,7 +24,9 @@ from abstracoes.descontos import DescontoNulo
 from services.horario import Horario
 from services.duracao import Duracao
 
-class Evento(object):
+from abstracoes.observer import Subject
+
+class Evento(Subject):
 
 	def __init__(self,nome,descricao,duracao):
 
@@ -55,6 +57,8 @@ class Evento(object):
 		self.inscricao_unica = False
 		
 		self.espacos_fisicos = list()
+
+		self.observadores = list()
 
 	def __eq__(self,evento):
 
@@ -94,11 +98,13 @@ class Evento(object):
 
 	def adicionar_atividade(self,atividade):
 
+
 		if atividade in self.atividades:
 			raise AtividadeJaExisteNoEvento("Atividade Já Existe")
 		else:
 			self.atividades.append(atividade)
 
+		self.notificar("Atividade adicionada : {}".format(atividade.descricao))
 
 	def mudar_visibilidade(self,visibilidade):
 
@@ -167,6 +173,16 @@ class Evento(object):
 					yield atividades
 			else:
 				yield atividade
+
+	def registrar(self,observer):
+		self.observadores.append(observer)
+
+	def remover(self,observer):
+		self.observadores.remove(observers)
+
+	def notificar(self,mensagem):
+		for observador in self.observadores:
+			observador.update(mensagem)
 
 	def __repr__(self):
 		return "{}".format(self.__dict__)
