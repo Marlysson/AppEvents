@@ -6,7 +6,7 @@ class Desconto(metaclass=ABCMeta):
 
 	@abstractmethod
 	def obter_preco(inscricao):
-		raise ValueError("Método 'obter_atividades' não implementada")
+		raise NotImplementedError("Método 'obter_preco' não implementada")
 
 
 class DescontoHackathon(Desconto):
