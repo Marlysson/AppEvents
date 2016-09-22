@@ -135,25 +135,25 @@ class TestInscricao(unittest.TestCase):
 		for atividade in [palestra,hackathon,tutorial]:
 			inscricao.adicionar_atividade(atividade)
 	
-	@unittest.skip("Não implementado")
-	def test_deve_gerar_excecao_quando_ocorrer_uma_inscricao_fora_do_prazo(self):
+	# @unittest.skip("Não implementado")
+	# def test_deve_gerar_excecao_quando_ocorrer_uma_inscricao_fora_do_prazo(self):
 		
-		from unittest.mock import Mock
+	# 	from unittest.mock import Mock
 
-		data_inicio = self.hoje + timedelta(days=1)
-		data_final  = data_inicio + timedelta(days=3)
+	# 	data_inicio = self.hoje + timedelta(days=1)
+	# 	data_final  = data_inicio + timedelta(days=3)
 
 
-		evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
-		evento.prazo_inscricoes = (data_inicio + timedelta(days=2)).date()
+	# 	evento = Evento("Congresso de Profissionais Web","lorem ipsum....",data_inicio,data_final)
+	# 	evento.prazo_inscricoes = (data_inicio + timedelta(days=2)).date()
 
-		evento.apto_inscricoes = Mock(return_value=False)
+	# 	evento.apto_inscricoes = Mock(return_value=False)
 
-		evento.adicionar_atividade(self.tutorial)
-		evento.adicionar_atividade(self.palestra)
+	# 	evento.adicionar_atividade(self.tutorial)
+	# 	evento.adicionar_atividade(self.palestra)
 
-		with self.assertRaises(PeriodoInvalidoParaInscricoes):
-			inscricao = Inscricao(self.participante,evento)
+	# 	with self.assertRaises(PeriodoInvalidoParaInscricoes):
+	# 		inscricao = Inscricao(self.participante,evento)
 
 	def test_deve_retornar_data_do_checkin_da_inscricao(self):
 		

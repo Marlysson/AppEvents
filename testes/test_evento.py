@@ -26,9 +26,13 @@ from abstracoes.exceptions import AtividadeJaExisteNoEvento
 from services.horario import Horario
 from services.duracao import Duracao
 
+from abstracoes.observers_concretos import Logger
+
 class TestEvento(unittest.TestCase):
 		
 	def setUp(self):
+		
+		logger = Logger('../novas_atividades.txt')
 
 		self.hoje = Horario()
 
@@ -38,6 +42,8 @@ class TestEvento(unittest.TestCase):
 
 		self.evento = Evento("Semana de informática","asdasdasd",duracao)
 
+		self.evento.registrar(logger)
+		
 		self.palestra = AtividadeSimples(TipoAtividade.PALESTRA,"Acessibilidade Web",self.hoje,0.0)
 		self.tutorial = AtividadeSimples(TipoAtividade.TUTORIAL,"Javascript funcional",self.hoje,15.00)
 		self.mini_curso = AtividadeSimples(TipoAtividade.MINI_CURSO,"Javascript - Best Pratices",self.hoje,30.00)
