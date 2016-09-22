@@ -4,9 +4,10 @@ from enum import Enum
 
 class TipoParticipante(Enum):
 	
-	PARTICIPANTE  = "Participante"
+	ESTUDANTE     = "Estudante"
+	PROFISSIONAL  = "Profissional"
 	ORGANIZADOR   = "Organizador"
 	PALESTRANTE   = "Palestrante"
-
+	
 	def __str__(self):
 		return "{}".format(self.value)
