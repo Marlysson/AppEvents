@@ -1,5 +1,13 @@
 # -*- coding : utf-8 -*- 
 
+import sys , os
+
+# Adicionando pasta externa para capturar os modelos
+diretorio_atual = os.getcwd()
+app = os.path.dirname(diretorio_atual)
+
+sys.path.append(app)
+
 from datetime import datetime , date , timedelta
 from fabricas.recorrencia_factory import FactoryRecorrencia
 
