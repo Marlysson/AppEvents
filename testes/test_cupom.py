@@ -6,42 +6,36 @@ from datetime import date , timedelta
 
 # Adicionando pasta externa para capturar os modelos
 diretorio_atual = os.getcwd()
-app = os.path.dirname(diretorio_atual)
-
-sys.path.append(app)
+sys.path.append(diretorio_atual)
 
 from services.horario import Horario
-from modelo.cupom import Cupom
-from abstracoes.descontos import DescontoNulo
+from fabricas.cupom_factory import CupomFactory
 
 class TestCupom(unittest.TestCase):
 
 	def test_deve_ser_ativo_se_estar_no_periodo_da_validade(self):
 		
 		validade_futura = Horario().mais("7 dias")
-		cupom = Cupom("ANDROID_10",0.1,validade_futura)
 
-		validade = cupom.valido
+		cupom = CupomFactory.obter("ANDROID_10",0.1,validade_futura)
 
-		self.assertTrue(validade)
+		self.assertTrue(cupom.valido)
 
 	def test_nao_deve_ser_ativo_se_estiver_fora_da_validade(self):
 
 		validade = Horario("11/11/2011 10:00")
 
-		cupom = Cupom("BAIXA_TUDO_10",0.1,validade)
+		cupom = CupomFactory.obter("BAIXA_TUDO_10",0.1,validade,"tutorial")
 
-		validade = cupom.valido
-
-		self.assertFalse(validade)
+		self.assertFalse(cupom.valido)
 
 	def test_deve_validar_um_cupom_nulo(self):
 
 		validade = Horario().mais("7 dias")
 
-		cupom_nulo = Cupom("CupomNulo",0.0,validade,DescontoNulo)
-		
-		self.assertTrue(cupom_nulo.valido)
+		cupom_padrao = CupomFactory.obter("Padrão",0,validade)
+
+		self.assertTrue(cupom_padrao.valido)
 
 
 if __name__ == "__main__":

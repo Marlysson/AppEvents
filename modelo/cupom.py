@@ -1,7 +1,6 @@
 # -*- coding : utf-8 -*-
 
 import sys,os
-from datetime import date , timedelta
 
 # Adicionando pasta externa para capturar os modelos
 diretorio_atual = os.getcwd()
@@ -10,7 +9,7 @@ app = os.path.dirname(diretorio_atual)
 sys.path.append(app)
 
 from services.horario import Horario
-from abstracoes.descontos import DescontoNulo
+from fabricas.descontos_factory import DescontosFactory
 
 class Cupom(object):
 	def __init__(self,descricao,desconto,validade,regra=None):
@@ -19,7 +18,7 @@ class Cupom(object):
 		self.validade  = validade
 		self.desconto  = desconto
 
-		self.regra = DescontoNulo()
+		self.regra = DescontosFactory.obter(regra)
 
 	@property
 	def valido(self):

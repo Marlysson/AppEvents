@@ -19,6 +19,16 @@ class DescontoHackathon(Desconto):
 
 	    return sum([atividade.preco for atividade in atividades])
 
+class DescontoPalestra(Desconto):
+
+	def obter_preco(self,inscricao):
+	    
+	    tipo_atividade = lambda atividade : atividade.tipo.value == "Palestra"
+
+	    atividades = filter(tipo_atividade,inscricao.atividades)
+
+	    return sum([atividade.preco for atividade in atividades])
+
 class DescontoWorkshop(Desconto):
 
 	def obter_preco(self,inscricao):
